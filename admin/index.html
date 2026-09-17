@@ -31,39 +31,38 @@
   #shell .foot{padding:14px;text-align:center;font-size:13px;color:var(--muted)}
   #shell .foot a{color:var(--wine);font-weight:600}
 
-  /* ---------- Editor chrome (Decap) ---------- */
-  #nc-root [class*="AppHeader"]{background:var(--wine-ink)!important;box-shadow:0 1px 0 rgba(0,0,0,.12)}
-  #nc-root [class*="AppHeaderContent"]{max-width:1240px}
-  #nc-root [class*="AppHeader"] a,
-  #nc-root [class*="AppHeader"] button{color:#fff!important}
-  #nc-root [class*="AppHeaderNavLink"][class*="active"],
-  #nc-root [class*="AppHeaderButton"]{background:rgba(255,255,255,.12)!important;border-radius:999px}
-  #nc-root [class*="SiteLinkText"],
-  #nc-root [class*="AppHeaderSiteLink"]{font-family:var(--display);letter-spacing:.06em}
-
-  /* buttons */
-  #nc-root button[class*="Primary"],
-  #nc-root [class*="PublishButton"],
-  #nc-root [class*="SaveButton"]{background:var(--wine)!important;color:#fff!important;border-radius:999px!important}
-  #nc-root button[class*="Primary"]:hover,
-  #nc-root [class*="PublishButton"]:hover{background:#A3064F!important}
-  #nc-root [class*="DeleteButton"]{border-radius:999px!important}
-
-  /* cards, lists, editor panes */
-  #nc-root [class*="Card"]{border-radius:14px!important;border:1px solid var(--line)!important;box-shadow:0 10px 26px -22px rgba(75,2,36,.5)!important}
-  #nc-root [class*="ListCard"]:hover{border-color:var(--wine)!important}
-  #nc-root [class*="ControlPaneContainer"]{max-width:920px;margin:0 auto}
+  /* ---------- Editor chrome ---------- */
+  #nc-root [class*="AppHeader"]{background:var(--wine-ink)!important}
+  #nc-root [class*="AppHeader"] a,#nc-root [class*="AppHeader"] button{color:#fff!important}
+  #nc-root button[class*="Primary"],#nc-root [class*="PublishButton"],#nc-root [class*="SaveButton"]{background:var(--wine)!important;color:#fff!important;border-radius:999px!important}
+  #nc-root button[class*="Primary"]:hover,#nc-root [class*="PublishButton"]:hover{background:#A3064F!important}
+  #nc-root [class*="Card"]{border-radius:14px!important;border:1px solid var(--line)!important}
+  #nc-root [class*="ControlPaneContainer"]{max-width:960px;margin:0 auto}
   #nc-root input,#nc-root textarea,#nc-root select{border-radius:10px!important}
-  #nc-root [class*="FieldLabel"]{color:var(--muted)!important;letter-spacing:.01em}
   #nc-root [class*="FieldLabel"][class*="active"]{color:var(--wine)!important}
   #nc-root [class*="ObjectWidgetTopBar"]{background:var(--blush)!important;border-radius:10px!important}
+  /* highlight a newly added suite for a moment */
+  .justAdded{outline:3px solid var(--wine);outline-offset:3px;border-radius:12px;transition:outline-color 1.6s ease}
+  .justAdded.fade{outline-color:transparent}
 
-  /* help panel shown above the editor */
-  #help{position:fixed;left:0;right:0;bottom:0;z-index:4;background:var(--wine-ink);color:#fff;padding:12px 18px;font-size:13.5px;display:none;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}
-  #help.show{display:flex}
-  #help span{opacity:.85}
-  #help b{color:#F7B8D2}
-  #help button{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;padding:5px 12px;font:600 13px var(--sans);cursor:pointer}
+  /* ---------- Help button + guide ---------- */
+  #helpBtn{position:fixed;right:18px;bottom:18px;z-index:6;background:var(--wine);color:#fff;border:0;border-radius:999px;padding:12px 20px;font:600 15px var(--sans);cursor:pointer;box-shadow:0 10px 26px -12px rgba(75,2,36,.8);display:none}
+  #helpBtn.show{display:block}
+  #guide{position:fixed;inset:0;z-index:7;background:rgba(27,20,24,.6);display:none;align-items:center;justify-content:center;padding:20px}
+  #guide.open{display:flex}
+  .gbox{background:var(--surface);border-radius:20px;max-width:760px;width:100%;max-height:92vh;overflow:auto}
+  .ghead{background:var(--wine);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;position:sticky;top:0}
+  .ghead h2{margin:0;font-family:var(--display);font-weight:400;font-size:26px}
+  .ghead button{background:rgba(255,255,255,.15);border:0;color:#fff;border-radius:999px;width:34px;height:34px;font-size:18px;cursor:pointer}
+  .gbody{padding:8px 24px 24px}
+  .gstep{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+  .gstep:last-child{border-bottom:0}
+  .gstep svg{width:96px;height:72px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+  .gstep h3{margin:0 0 4px;font-size:18px}
+  .gstep p{margin:0;color:var(--muted);font-size:15px;line-height:1.5}
+  .gnote{margin-top:18px;background:var(--blush);border-radius:12px;padding:14px 16px;font-size:14.5px}
+  .gnote b{color:var(--wine)}
+  @media (max-width:560px){ .gstep{grid-template-columns:1fr} .gstep svg{width:100%;height:120px} }
 </style>
 </head>
 <body>
@@ -79,9 +78,43 @@
   <div class="foot">325 University Ave W, Cobourg &nbsp;·&nbsp; <a href="/">Back to the website</a></div>
 </div>
 
-<div id="help">
-  <span><b>1.</b> Edit a suite &nbsp; <b>2.</b> Save &nbsp; <b>3.</b> Check the preview &nbsp; <b>4.</b> Publish when you're happy</span>
-  <button id="helpClose">Got it</button>
+<button id="helpBtn">How to use this</button>
+
+<div id="guide" role="dialog" aria-modal="true" aria-labelledby="gTitle">
+  <div class="gbox">
+    <div class="ghead"><h2 id="gTitle">How to use the dashboard</h2><button id="gClose" aria-label="Close">✕</button></div>
+    <div class="gbody">
+
+      <div class="gstep">
+        <svg viewBox="0 0 120 90" aria-hidden="true"><rect x="10" y="14" width="100" height="16" rx="4" fill="#E6DEE1"/><rect x="10" y="36" width="100" height="16" rx="4" fill="#F4E7EC" stroke="#8B0344" stroke-width="2"/><rect x="10" y="58" width="100" height="16" rx="4" fill="#E6DEE1"/><circle cx="96" cy="44" r="7" fill="#8B0344"/><path d="M93 44l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
+        <div><h3>1. Open a suite</h3><p>Click <b>Available suites</b>, then click the suite you want to change. Each row shows the unit number, type and rent.</p></div>
+      </div>
+
+      <div class="gstep">
+        <svg viewBox="0 0 120 90" aria-hidden="true"><rect x="12" y="12" width="96" height="66" rx="6" fill="#fff" stroke="#E6DEE1" stroke-width="2"/><rect x="22" y="24" width="40" height="7" rx="3" fill="#C9BCC2"/><rect x="22" y="36" width="76" height="12" rx="4" fill="#F7F5F4" stroke="#8B0344" stroke-width="2"/><rect x="22" y="56" width="30" height="10" rx="5" fill="#8B0344"/></svg>
+        <div><h3>2. Change what you need</h3><p>Update the rent, square feet, move-in date, or switch <b>Available now</b> on or off. Add photos with the image boxes. To remove a rented suite, click the <b>✕</b> on its row.</p></div>
+      </div>
+
+      <div class="gstep">
+        <svg viewBox="0 0 120 90" aria-hidden="true"><rect x="12" y="14" width="96" height="20" rx="6" fill="#2A0114"/><rect x="20" y="20" width="26" height="8" rx="4" fill="#8B0344"/><rect x="12" y="42" width="96" height="36" rx="6" fill="#fff" stroke="#E6DEE1" stroke-width="2"/><rect x="22" y="52" width="50" height="7" rx="3" fill="#E6DEE1"/><rect x="22" y="64" width="34" height="7" rx="3" fill="#E6DEE1"/></svg>
+        <div><h3>3. Save</h3><p>Click <b>Save</b> at the top left. This stores your change as a draft. Nothing on the public website has changed yet.</p></div>
+      </div>
+
+      <div class="gstep">
+        <svg viewBox="0 0 120 90" aria-hidden="true"><rect x="12" y="16" width="96" height="58" rx="6" fill="#fff" stroke="#E6DEE1" stroke-width="2"/><path d="M12 32h96" stroke="#E6DEE1" stroke-width="2"/><circle cx="22" cy="24" r="3" fill="#C9BCC2"/><circle cx="32" cy="24" r="3" fill="#C9BCC2"/><rect x="24" y="42" width="72" height="10" rx="5" fill="#F4E7EC"/><rect x="24" y="58" width="44" height="8" rx="4" fill="#E6DEE1"/></svg>
+        <div><h3>4. Check the preview</h3><p>Use the <b>Published / In review</b> menu at the top to open the preview link. It shows the website with your change, so you can be sure it looks right.</p></div>
+      </div>
+
+      <div class="gstep">
+        <svg viewBox="0 0 120 90" aria-hidden="true"><rect x="12" y="14" width="96" height="20" rx="6" fill="#2A0114"/><rect x="70" y="19" width="32" height="10" rx="5" fill="#8B0344"/><path d="M60 46v18M60 64l-6-6M60 64l6-6" stroke="#8B0344" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="28" y="70" width="64" height="8" rx="4" fill="#E6DEE1"/></svg>
+        <div><h3>5. Publish</h3><p>When you're happy, click <b>Publish</b>. The website updates in about a minute. If several suites change in the same week, save them all first and publish once.</p></div>
+      </div>
+
+      <div class="gnote"><b>Adding a suite:</b> click <b>Add suite</b> at the top of the list. The new blank suite appears at the bottom of the list and the page scrolls to it automatically. Fill it in, then Save and Publish.</div>
+      <div class="gnote"><b>Need something changed that isn't here?</b> Text or email Abdullah — layout, wording and new sections are handled outside this dashboard.</div>
+
+    </div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/decap-cms@^3.8.4/dist/decap-cms.js"></script>
@@ -90,12 +123,13 @@
     var shell = document.getElementById('shell');
     var hint = document.getElementById('hint');
     var spin = document.getElementById('spin');
-    var help = document.getElementById('help');
+    var helpBtn = document.getElementById('helpBtn');
+    var guide = document.getElementById('guide');
 
-    document.getElementById('helpClose').addEventListener('click', function(){
-      help.classList.remove('show');
-      try { localStorage.setItem('caeedarHelp','hidden'); } catch(e){}
-    });
+    helpBtn.addEventListener('click', function(){ guide.classList.add('open'); });
+    document.getElementById('gClose').addEventListener('click', function(){ guide.classList.remove('open'); });
+    guide.addEventListener('click', function(e){ if (e.target === guide) guide.classList.remove('open'); });
+    addEventListener('keydown', function(e){ if (e.key === 'Escape') guide.classList.remove('open'); });
 
     function loginButton(){
       var btns = document.querySelectorAll('button, [role="button"]');
@@ -104,7 +138,6 @@
       }
       return null;
     }
-
     function loggedIn(){
       return !!document.querySelector('[class*="AppMainContainer"], [class*="AppHeader"], [class*="SidebarContainer"]');
     }
@@ -113,28 +146,53 @@
     var timer = setInterval(function(){
       tries++;
       var btn = loginButton();
-
       if (btn) {
         btn.textContent = 'Admin Login';
         spin.style.display = 'none';
         hint.textContent = 'Sign in with the account you were invited with.';
         shell.classList.add('hidden');
       }
-
       if (loggedIn()) {
         shell.classList.add('hidden');
-        try {
-          if (localStorage.getItem('caeedarHelp') !== 'hidden') help.classList.add('show');
-        } catch(e){ help.classList.add('show'); }
+        helpBtn.classList.add('show');
+        watchList();
         clearInterval(timer);
       }
-
       if (tries > 60 && !btn) {
         spin.style.display = 'none';
-        hint.innerHTML = 'The editor is taking a while to load. Try refreshing the page.';
+        hint.textContent = 'The editor is taking a while to load. Try refreshing the page.';
       }
       if (tries > 240) clearInterval(timer);
     }, 250);
+
+    /* When a new suite is added, scroll to it and highlight it. */
+    function watchList(){
+      if (!window.MutationObserver) return;
+      var mo = new MutationObserver(function(muts){
+        for (var i = 0; i < muts.length; i++) {
+          var added = muts[i].addedNodes;
+          for (var j = 0; j < added.length; j++) {
+            var n = added[j];
+            if (n.nodeType !== 1) continue;
+            var cls = (n.className || '').toString();
+            if (/ListItem|SortableListItem|ObjectWidgetTopBar/.test(cls)) {
+              (function(el){
+                setTimeout(function(){
+                  try {
+                    el.scrollIntoView({behavior:'smooth', block:'center'});
+                    el.classList.add('justAdded');
+                    setTimeout(function(){ el.classList.add('fade'); }, 1200);
+                    setTimeout(function(){ el.classList.remove('justAdded','fade'); }, 3200);
+                  } catch(e){}
+                }, 120);
+              })(n);
+              return;
+            }
+          }
+        }
+      });
+      mo.observe(document.body, {childList:true, subtree:true});
+    }
   })();
 </script>
 </body>
