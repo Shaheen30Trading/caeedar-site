@@ -26,7 +26,11 @@
       "barrierFree": false,
       "plan": "/img/plan-203.jpg",
       "planThumb": "/img/plan-thumb-203.jpg",
-      "photos": ["/img/unit-203-1.jpg", "/img/unit-203-2.jpg", "/img/unit-203-3.jpg"]
+      "photos": [
+        "/img/unit-203-1.jpg",
+        "/img/unit-203-2.jpg",
+        "/img/unit-203-3.jpg"
+      ]
     },
     {
       "unit": "206",
@@ -54,7 +58,11 @@
       "barrierFree": false,
       "plan": "/img/plan-217.jpg",
       "planThumb": "/img/plan-thumb-217.jpg",
-      "photos": ["/img/unit-217-1.jpg", "/img/unit-217-2.jpg", "/img/unit-217-3.jpg"]
+      "photos": [
+        "/img/unit-217-1.jpg",
+        "/img/unit-217-2.jpg",
+        "/img/unit-217-3.jpg"
+      ]
     },
     {
       "unit": "303",
@@ -68,7 +76,11 @@
       "barrierFree": false,
       "plan": "/img/plan-303.jpg",
       "planThumb": "/img/plan-thumb-303.jpg",
-      "photos": ["/img/unit-303-1.jpg", "/img/unit-303-2.jpg", "/img/unit-303-3.jpg"]
+      "photos": [
+        "/img/unit-303-1.jpg",
+        "/img/unit-303-2.jpg",
+        "/img/unit-303-3.jpg"
+      ]
     },
     {
       "unit": "316",
@@ -82,7 +94,11 @@
       "barrierFree": false,
       "plan": "/img/plan-316.jpg",
       "planThumb": "/img/plan-thumb-316.jpg",
-      "photos": ["/img/unit-316-1.jpg", "/img/unit-316-2.jpg", "/img/unit-316-3.jpg"]
+      "photos": [
+        "/img/unit-316-1.jpg",
+        "/img/unit-316-2.jpg",
+        "/img/unit-316-3.jpg"
+      ]
     },
     {
       "unit": "408",
