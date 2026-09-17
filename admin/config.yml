@@ -1,0 +1,67 @@
+backend:
+  name: github
+  repo: Shaheen30Trading/caeedar-site
+  branch: main
+  commit_messages:
+    update: 'Update {{collection}} — {{author-login}}'
+
+# Owners save drafts first, then publish when ready.
+publish_mode: editorial_workflow
+
+media_folder: "img/uploads"
+public_folder: "/img/uploads"
+
+site_url: https://caeedar-preview.netlify.app
+display_url: https://caeedar-preview.netlify.app
+logo_url: https://caeedar-preview.netlify.app/img/logo.png
+
+collections:
+  - name: suites
+    label: "Available suites"
+    files:
+      - name: list
+        label: "Available suites"
+        file: "data/suites.json"
+        description: "Every suite listed here shows on the website. Remove a suite when it is rented."
+        format: json
+        fields:
+          - name: suites
+            label: "Suites"
+            label_singular: "Suite"
+            widget: list
+            summary: "Suite {{fields.unit}} — {{fields.label}} — ${{fields.price}}"
+            fields:
+              - { name: unit, label: "Unit number", widget: string, hint: "For example 203" }
+              - name: type
+                label: "Suite type"
+                widget: select
+                options:
+                  - { label: "Studio", value: studio }
+                  - { label: "1 Bedroom", value: "1b" }
+                  - { label: "1 Bedroom + Den", value: "1bd" }
+                  - { label: "2 Bedroom", value: "2b" }
+                  - { label: "2 Bedroom + Den", value: "2bd" }
+              - { name: label, label: "Type shown on the website", widget: string, hint: "For example: 1 Bedroom + Den" }
+              - { name: sqft, label: "Square feet", widget: number, value_type: int, min: 100, max: 5000 }
+              - { name: bath, label: "Bathrooms", widget: number, value_type: float, min: 1, max: 4, step: 0.5 }
+              - { name: price, label: "Monthly rent ($)", widget: number, value_type: int, min: 500, max: 10000 }
+              - { name: availableNow, label: "Available now", widget: boolean, default: false, hint: "Turn on if the suite is ready today. If off, set the date below." }
+              - { name: availableDate, label: "Available from", widget: datetime, required: false, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "Leave empty if available now." }
+              - { name: barrierFree, label: "Barrier-free suite", widget: boolean, default: false }
+              - { name: plan, label: "Floor plan image", widget: image, required: false, allow_multiple: false }
+              - { name: planThumb, label: "Floor plan close-up (shown on the card)", widget: image, required: false, allow_multiple: false, hint: "Optional. If empty, the floor plan above is used." }
+              - { name: photos, label: "Photos of this suite", widget: list, required: false, field: { name: photo, label: Photo, widget: image } }
+
+  - name: contact
+    label: "Contact details"
+    files:
+      - name: info
+        label: "Contact details"
+        file: "data/contact.json"
+        format: json
+        description: "Phone, email and the booking link used by the buttons on the website."
+        fields:
+          - { name: phone, label: "Phone number", widget: string }
+          - { name: email, label: "Leasing email", widget: string }
+          - { name: bookingUrl, label: "Book a viewing link", widget: string }
+          - { name: notice, label: "Notice on the website", widget: string, required: false, hint: "Optional short message, for example: Two bedroom suites available November 1." }
