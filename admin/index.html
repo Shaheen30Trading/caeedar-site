@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>CAEEDAR — Website dashboard</title>
+<title>CAEEDAR — Admin login</title>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   html,body{margin:0;height:100%;font-family:"Hanken Grotesk",system-ui,sans-serif;background:#F7F5F4;color:#1B1418}
@@ -12,9 +12,14 @@
   #loading h1{font-size:24px;color:#8B0344;margin:0;font-weight:600}
   #loading p{margin:0;color:#6B5F64;max-width:420px}
   #loading.hidden{display:none}
+  /* Notice shown above the sign-in button */
+  #adminNote{position:fixed;left:0;right:0;top:0;z-index:2;background:#8B0344;color:#fff;text-align:center;padding:10px 16px;font-size:14px}
+  #adminNote b{font-weight:700}
+  #adminNote.hidden{display:none}
 </style>
 </head>
 <body>
+<div id="adminNote"><b>Staff area.</b> This login is for CAEEDAR management only.</div>
 <div id="loading">
   <h1>CAEEDAR dashboard</h1>
   <p>Loading the editor…</p>
@@ -23,14 +28,31 @@
 <script>
   (function(){
     var loading = document.getElementById('loading');
-    function hide(){ loading.classList.add('hidden'); }
-    // Hide as soon as the editor has rendered anything of its own.
+    var note = document.getElementById('adminNote');
+
+    function relabel(){
+      var btns = document.querySelectorAll('button, [role="button"]');
+      for (var i = 0; i < btns.length; i++) {
+        var t = (btns[i].textContent || '').trim();
+        if (/login with github/i.test(t)) {
+          btns[i].textContent = 'Admin Login';
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function loggedIn(){
+      return !!document.querySelector('[class*="AppMainContainer"], [class*="AppHeader"], #nc-root [class*="SidebarContainer"]');
+    }
+
     var tries = 0;
     var timer = setInterval(function(){
       tries++;
-      if (document.querySelector('#nc-root, [class*="AppMainContainer"], [class*="Login"]') || tries > 40) {
-        hide(); clearInterval(timer);
-      }
+      var seen = relabel();
+      if (seen || loggedIn() || tries > 60) { loading.classList.add('hidden'); }
+      if (loggedIn()) { note.classList.add('hidden'); }
+      if (tries > 240) { clearInterval(timer); }
     }, 250);
   })();
 </script>
