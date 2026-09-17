@@ -5,54 +5,135 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>CAEEDAR — Admin login</title>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  html,body{margin:0;height:100%;font-family:"Hanken Grotesk",system-ui,sans-serif;background:#F7F5F4;color:#1B1418}
-  #loading{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;background:#F7F5F4;z-index:1}
-  #loading h1{font-size:24px;color:#8B0344;margin:0;font-weight:600}
-  #loading p{margin:0;color:#6B5F64;max-width:420px}
-  #loading.hidden{display:none}
-  /* Notice shown above the sign-in button */
-  #adminNote{position:fixed;left:0;right:0;top:0;z-index:2;background:#8B0344;color:#fff;text-align:center;padding:10px 16px;font-size:14px}
-  #adminNote b{font-weight:700}
-  #adminNote.hidden{display:none}
+  :root{
+    --wine:#8B0344; --wine-deep:#4B0224; --wine-ink:#2A0114;
+    --bg:#F7F5F4; --surface:#fff; --ink:#1B1418; --muted:#6B5F64; --line:#E6DEE1; --blush:#F4E7EC;
+    --sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --display:"Marcellus","Optima",Georgia,serif;
+  }
+  html,body{margin:0;height:100%;font-family:var(--sans);background:var(--bg);color:var(--ink)}
+
+  /* ---------- Sign-in screen ---------- */
+  #shell{position:fixed;inset:0;z-index:3;display:flex;flex-direction:column;background:var(--bg)}
+  #shell.hidden{display:none}
+  #shell .bar{background:var(--wine);color:#fff;padding:11px 18px;font-size:14px;text-align:center}
+  #shell .bar b{font-weight:700}
+  #shell .mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:28px;text-align:center}
+  #shell .mark{font-family:var(--display);font-size:38px;letter-spacing:.08em;color:var(--wine);margin:0}
+  #shell .sub{color:var(--muted);margin:0 0 4px;font-size:15px}
+  #shell .hint{color:var(--muted);font-size:14px;max-width:360px;margin-top:6px}
+  #shell .spin{width:26px;height:26px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--wine);animation:spin .8s linear infinite;margin:14px 0 2px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #shell .foot{padding:14px;text-align:center;font-size:13px;color:var(--muted)}
+  #shell .foot a{color:var(--wine);font-weight:600}
+
+  /* ---------- Editor chrome (Decap) ---------- */
+  #nc-root [class*="AppHeader"]{background:var(--wine-ink)!important;box-shadow:0 1px 0 rgba(0,0,0,.12)}
+  #nc-root [class*="AppHeaderContent"]{max-width:1240px}
+  #nc-root [class*="AppHeader"] a,
+  #nc-root [class*="AppHeader"] button{color:#fff!important}
+  #nc-root [class*="AppHeaderNavLink"][class*="active"],
+  #nc-root [class*="AppHeaderButton"]{background:rgba(255,255,255,.12)!important;border-radius:999px}
+  #nc-root [class*="SiteLinkText"],
+  #nc-root [class*="AppHeaderSiteLink"]{font-family:var(--display);letter-spacing:.06em}
+
+  /* buttons */
+  #nc-root button[class*="Primary"],
+  #nc-root [class*="PublishButton"],
+  #nc-root [class*="SaveButton"]{background:var(--wine)!important;color:#fff!important;border-radius:999px!important}
+  #nc-root button[class*="Primary"]:hover,
+  #nc-root [class*="PublishButton"]:hover{background:#A3064F!important}
+  #nc-root [class*="DeleteButton"]{border-radius:999px!important}
+
+  /* cards, lists, editor panes */
+  #nc-root [class*="Card"]{border-radius:14px!important;border:1px solid var(--line)!important;box-shadow:0 10px 26px -22px rgba(75,2,36,.5)!important}
+  #nc-root [class*="ListCard"]:hover{border-color:var(--wine)!important}
+  #nc-root [class*="ControlPaneContainer"]{max-width:920px;margin:0 auto}
+  #nc-root input,#nc-root textarea,#nc-root select{border-radius:10px!important}
+  #nc-root [class*="FieldLabel"]{color:var(--muted)!important;letter-spacing:.01em}
+  #nc-root [class*="FieldLabel"][class*="active"]{color:var(--wine)!important}
+  #nc-root [class*="ObjectWidgetTopBar"]{background:var(--blush)!important;border-radius:10px!important}
+
+  /* help panel shown above the editor */
+  #help{position:fixed;left:0;right:0;bottom:0;z-index:4;background:var(--wine-ink);color:#fff;padding:12px 18px;font-size:13.5px;display:none;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap}
+  #help.show{display:flex}
+  #help span{opacity:.85}
+  #help b{color:#F7B8D2}
+  #help button{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:999px;padding:5px 12px;font:600 13px var(--sans);cursor:pointer}
 </style>
 </head>
 <body>
-<div id="adminNote"><b>Staff area.</b> This login is for CAEEDAR management only.</div>
-<div id="loading">
-  <h1>CAEEDAR dashboard</h1>
-  <p>Loading the editor…</p>
+
+<div id="shell">
+  <div class="bar"><b>Staff area.</b> This login is for CAEEDAR management only.</div>
+  <div class="mid">
+    <p class="mark">CAEEDAR</p>
+    <p class="sub">Website dashboard</p>
+    <div class="spin" id="spin"></div>
+    <p class="hint" id="hint">Loading the editor…</p>
+  </div>
+  <div class="foot">325 University Ave W, Cobourg &nbsp;·&nbsp; <a href="/">Back to the website</a></div>
 </div>
+
+<div id="help">
+  <span><b>1.</b> Edit a suite &nbsp; <b>2.</b> Save &nbsp; <b>3.</b> Check the preview &nbsp; <b>4.</b> Publish when you're happy</span>
+  <button id="helpClose">Got it</button>
+</div>
+
 <script src="https://unpkg.com/decap-cms@^3.8.4/dist/decap-cms.js"></script>
 <script>
   (function(){
-    var loading = document.getElementById('loading');
-    var note = document.getElementById('adminNote');
+    var shell = document.getElementById('shell');
+    var hint = document.getElementById('hint');
+    var spin = document.getElementById('spin');
+    var help = document.getElementById('help');
 
-    function relabel(){
+    document.getElementById('helpClose').addEventListener('click', function(){
+      help.classList.remove('show');
+      try { localStorage.setItem('caeedarHelp','hidden'); } catch(e){}
+    });
+
+    function loginButton(){
       var btns = document.querySelectorAll('button, [role="button"]');
       for (var i = 0; i < btns.length; i++) {
-        var t = (btns[i].textContent || '').trim();
-        if (/login with github/i.test(t)) {
-          btns[i].textContent = 'Admin Login';
-          return true;
-        }
+        if (/login with github/i.test((btns[i].textContent || '').trim())) return btns[i];
       }
-      return false;
+      return null;
     }
 
     function loggedIn(){
-      return !!document.querySelector('[class*="AppMainContainer"], [class*="AppHeader"], #nc-root [class*="SidebarContainer"]');
+      return !!document.querySelector('[class*="AppMainContainer"], [class*="AppHeader"], [class*="SidebarContainer"]');
     }
 
     var tries = 0;
     var timer = setInterval(function(){
       tries++;
-      var seen = relabel();
-      if (seen || loggedIn() || tries > 60) { loading.classList.add('hidden'); }
-      if (loggedIn()) { note.classList.add('hidden'); }
-      if (tries > 240) { clearInterval(timer); }
+      var btn = loginButton();
+
+      if (btn) {
+        btn.textContent = 'Admin Login';
+        spin.style.display = 'none';
+        hint.textContent = 'Sign in with the account you were invited with.';
+        shell.classList.add('hidden');
+      }
+
+      if (loggedIn()) {
+        shell.classList.add('hidden');
+        try {
+          if (localStorage.getItem('caeedarHelp') !== 'hidden') help.classList.add('show');
+        } catch(e){ help.classList.add('show'); }
+        clearInterval(timer);
+      }
+
+      if (tries > 60 && !btn) {
+        spin.style.display = 'none';
+        hint.innerHTML = 'The editor is taking a while to load. Try refreshing the page.';
+      }
+      if (tries > 240) clearInterval(timer);
     }, 250);
   })();
 </script>
