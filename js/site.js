@@ -49,21 +49,24 @@
       var pv=prev.querySelector('video');
       if(pv) setTimeout(function(){ if(!prev.classList.contains('is-on')){ try{pv.pause();}catch(e){} } }, FADE+150);
     }
+    var MAXPLAY=6.5;   // seconds of any clip before it hands off
     function schedule(v){
       var d=v.duration;
       if(d && isFinite(d)){
-        var left=Math.max(1200, (d - v.currentTime)*1000 - FADE);
+        var left=Math.max(1200, (Math.min(d, MAXPLAY) - v.currentTime)*1000 - FADE);
         clearTimeout(timer); timer=setTimeout(go, left);
       }
     }
     function show(i){
       var s=slides[i];
       var v=s.querySelector('video');
-      if(v && getComputedStyle(v).display!=='none'){
+      var usable = v && getComputedStyle(v).display!=='none' && !v.error && v.networkState!==3;
+      if(usable){
         try{ v.currentTime=0; }catch(e){}
         var p=v.play(); if(p&&p.catch) p.catch(function(){});
-        clearTimeout(timer); timer=setTimeout(go, 9000);        // fallback until we know the length
-        if(v.readyState>=1) schedule(v); else v.addEventListener('loadedmetadata', function(){ if(slides[si]===s) schedule(v); }, {once:true});
+        clearTimeout(timer); timer=setTimeout(go, 5000);        // if the clip isn't ready, behave like a photo
+        if(v.readyState>=2) schedule(v);
+        else v.addEventListener('playing', function(){ if(slides[si]===s) schedule(v); }, {once:true});
       } else {
         clearTimeout(timer); timer=setTimeout(go, 5000);
       }
@@ -144,7 +147,7 @@
     var rows=suites.filter(function(s){ return (fType==='all'||s.type===fType) && (!byDate || readyOn(s.available)<=byDate); })
       .sort(function(a,b){ var ak=isNow(a.available)?'0':a.available, bk=isNow(b.available)?'0':b.available; if(ak!==bk) return ak<bk?-1:1; return a.price-b.price; });
     list.innerHTML = rows.length ? rows.map(function(s){
-      var TYPEPIC={studio:'img/int-open-plan.jpg','1b':'img/int-living-windows.jpg','1bd':'img/int-living-kitchen.jpg','2b':'img/int-island.jpg','2bd':'img/int-island.jpg'};
+      var TYPEPIC={studio:'img/int-open-plan.jpg?v=20260919','1b':'img/int-living-windows.jpg?v=20260919','1bd':'img/int-living-kitchen.jpg?v=20260919','2b':'img/int-island.jpg?v=20260919','2bd':'img/int-island.jpg?v=20260919'};
       var hasPhoto=s.photos.length>0, typePic=TYPEPIC[s.type], isType=!hasPhoto&&!!typePic;
       var img=hasPhoto?s.photos[0]:(typePic||s.planThumb);
       return '<article class="suite">'+
@@ -189,8 +192,8 @@
   /* modal gallery */
   var modal=document.getElementById('modal'), mImg=document.getElementById('mImg'), mThumbs=document.getElementById('mThumbs'), gal=[], gi=0, lastFocus=null;
   var galleries={
-    suites:{title:'Inside the suites',sub:'Photos show a typical suite. Finishes may vary.',items:[['img/int-open-plan.jpg','Open-plan living'],['img/int-kitchen-detail.jpg','Kitchen'],['img/int-laundry.jpg','In-suite laundry'],['img/int-living-windows.jpg','Living room'],['img/int-bath.jpg','Bathroom'],['img/int-living-kitchen.jpg','Living and kitchen'],['img/int-island.jpg','Kitchen island']]},
-    building:{title:'Around the building',sub:'325 University Ave W, Cobourg',items:[['img/ext-frontage.jpg','University Ave W frontage'],['img/aerial-corner.jpg','The corner of the building'],['img/ext-entrance.jpg','Main entrance'],['img/ext-sign.jpg','325 University Ave W'],['img/ext-breezeway.jpg','Breezeway to the courtyard'],['img/aerial-garden.jpg','Landscaping along the walkway'],['img/ext-trees.jpg','Lawn and young trees along the sidewalk'],['img/aerial-parking.jpg','Surface parking'],['img/ext-ev.jpg','EV charging'],['img/amenity-lounge.jpg','Resident lounge'],['img/amenity-wide.jpg','Resident lounge, wide view'],['img/amenity-kitchen.jpg','Lounge kitchen']]}
+    suites:{title:'Inside the suites',sub:'Photos show a typical suite. Finishes may vary.',items:[['img/int-open-plan.jpg?v=20260919','Open-plan living'],['img/int-kitchen-detail.jpg?v=20260919','Kitchen'],['img/int-laundry.jpg?v=20260919','In-suite laundry'],['img/int-living-windows.jpg?v=20260919','Living room'],['img/int-bath.jpg?v=20260919','Bathroom'],['img/int-living-kitchen.jpg?v=20260919','Living and kitchen'],['img/int-island.jpg?v=20260919','Kitchen island']]},
+    building:{title:'Around the building',sub:'325 University Ave W, Cobourg',items:[['img/ext-frontage.jpg?v=20260919','University Ave W frontage'],['img/aerial-corner.jpg?v=20260919','The corner of the building'],['img/ext-entrance.jpg?v=20260919','Main entrance'],['img/ext-sign.jpg?v=20260919','325 University Ave W'],['img/ext-breezeway.jpg?v=20260919','Breezeway to the courtyard'],['img/aerial-garden.jpg?v=20260919','Landscaping along the walkway'],['img/ext-trees.jpg?v=20260919','Lawn and young trees along the sidewalk'],['img/aerial-parking.jpg?v=20260919','Surface parking'],['img/ext-ev.jpg?v=20260919','EV charging'],['img/amenity-lounge.jpg?v=20260919','Resident lounge'],['img/amenity-wide.jpg?v=20260919','Resident lounge, wide view'],['img/amenity-kitchen.jpg?v=20260919','Lounge kitchen']]}
   };
   function openGal(title,sub,items,start,showBook){
     gal=items; gi=start||0; lastFocus=document.activeElement;

@@ -97,9 +97,9 @@ body.menu-open header.top{background:var(--bg)}
 @keyframes kb-push{from{transform:scale(1.06) translate(0.8%,0)}to{transform:scale(1.19) translate(-1.6%,0.6%)}}
 @keyframes kb-drift{from{transform:scale(1.15) translate(2%,-0.6%)}to{transform:scale(1.05) translate(-1%,0.4%)}}
 @keyframes kb-pan{from{transform:scale(1.13) translate(3.4%,0.5%)}to{transform:scale(1.13) translate(-3.4%,-0.5%)}}
-.slide.s1{background-image:url('../img/cob-festival.jpg')}
-.slide.s2{background-image:url('../img/cob-harbour.jpg')}
-.slide.s3{background-image:url('../img/cob-beach-aerial.jpg')}
+.slide.s1{background-image:url('../img/cob-festival.jpg?v=20260919')}
+.slide.s2{background-image:url('../img/cob-harbour.jpg?v=20260919')}
+.slide.s3{background-image:url('../img/cob-beach-aerial.jpg?v=20260919')}
 .slide video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 
 .art-main figcaption{position:absolute;z-index:2;right:16px;bottom:16px;background:rgba(27,20,24,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:12.5px;padding:7px 14px;border-radius:999px}
@@ -388,9 +388,9 @@ body.modal-open .mobile-bar{display:none!important}
   .art-inset{width:34%;left:auto;right:-10px;bottom:-26px;border-width:8px}
 }
 @media (max-width:820px){
-  .slide.s1{background-image:url('../img/cob-festival-m.jpg')}
-  .slide.s2{background-image:url('../img/cob-harbour-m.jpg')}
-  .slide.s3{background-image:url('../img/cob-beach-aerial-m.jpg')}
+  .slide.s1{background-image:url('../img/cob-festival-m.jpg?v=20260919')}
+  .slide.s2{background-image:url('../img/cob-harbour-m.jpg?v=20260919')}
+  .slide.s3{background-image:url('../img/cob-beach-aerial-m.jpg?v=20260919')}
   .slide video{display:none}
   .slide.s1.is-on{animation:kb-push 15s ease-out forwards}
   .slide.s2.is-on{animation:kb-drift 15s ease-out forwards}
