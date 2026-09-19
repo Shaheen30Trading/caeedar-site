@@ -391,9 +391,7 @@ body.modal-open .mobile-bar{display:none!important}
   .slide.s1{background-image:url('../img/cob-festival-m.jpg?v=20260919')}
   .slide.s2{background-image:url('../img/cob-harbour-m.jpg?v=20260919')}
   .slide.s3{background-image:url('../img/cob-beach-aerial-m.jpg?v=20260919')}
-  .slide video{display:none}
-  .slide.s1.is-on{animation:kb-push 15s ease-out forwards}
-  .slide.s2.is-on{animation:kb-drift 15s ease-out forwards}
+
   .hero-inner{padding-top:100px;gap:40px}
   .art-main{aspect-ratio:4/3;border-radius:18px}
   .art-inset{width:38%;bottom:-22px;right:-6px}

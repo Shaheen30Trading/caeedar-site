@@ -31,6 +31,13 @@
     setInterval(function(){ rots[ri].classList.remove('is-on'); ri=(ri+1)%rots.length; rots[ri].classList.add('is-on'); }, 2600);
   }
 
+  /* phones get the lighter cut of each hero clip */
+  if(window.matchMedia && matchMedia('(max-width:820px)').matches){
+    [].forEach.call(document.querySelectorAll('.slide video[data-mobile]'),function(v){
+      var s=v.querySelector('source'); if(s){ s.setAttribute('src', v.getAttribute('data-mobile')); v.load(); }
+    });
+  }
+
   /* hero slideshow */
   var slides=[].slice.call(document.querySelectorAll('.slide'));
   if(slides.length>1 && !reduce){ var si=0;
