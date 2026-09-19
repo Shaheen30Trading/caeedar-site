@@ -1,6 +1,6 @@
 (function(){
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var BOOK = 'https://calendar.app.google/uvTofgzo6mcxiUay5';
+  var BOOK = '#contact';
 
   /* header */
   var header=document.getElementById('top');
@@ -33,8 +33,10 @@
 
   /* phones get the lighter cut of each hero clip */
   if(window.matchMedia && matchMedia('(max-width:820px)').matches){
-    [].forEach.call(document.querySelectorAll('.slide video[data-mobile]'),function(v){
-      var s=v.querySelector('source'); if(s){ s.setAttribute('src', v.getAttribute('data-mobile')); v.load(); }
+    [].forEach.call(document.querySelectorAll('video[data-mobile]'),function(v){
+      var s=v.querySelector('source'); if(!s) return;
+      if(s.hasAttribute('data-src')) s.setAttribute('data-src', v.getAttribute('data-mobile'));   // lazy: swap before it loads
+      else { s.setAttribute('src', v.getAttribute('data-mobile')); v.load(); }
     });
   }
 
@@ -51,7 +53,7 @@
       var prev=slides[si];
       prev.classList.remove('is-on');
       si=(si+1)%slides.length;
-      show(si);
+      showSlide(si);
       // let the outgoing clip keep playing under the crossfade, then rest it
       var pv=prev.querySelector('video');
       if(pv) setTimeout(function(){ if(!prev.classList.contains('is-on')){ try{pv.pause();}catch(e){} } }, FADE+150);
@@ -64,7 +66,7 @@
         clearTimeout(timer); timer=setTimeout(go, left);
       }
     }
-    function show(i){
+    function showSlide(i){
       var s=slides[i];
       var v=s.querySelector('video');
       var usable = v && getComputedStyle(v).display!=='none' && !v.error && v.networkState!==3;
@@ -80,7 +82,7 @@
       s.classList.add('is-on');
       if(cap&&CAPS[i]) cap.textContent=CAPS[i];
     }
-    show(0);
+    showSlide(0);
   }
 
   /* hero video: skip on reduced motion or save-data */
@@ -167,7 +169,7 @@
           '<div class="suite-top"><h3>'+s.label+'</h3><span class="unitno">Suite '+s.unit+'</span></div>'+
           '<div class="meta"><span>'+s.sqft+' sq ft</span><span>'+s.bath+' bath</span>'+(s.bf?'<span class="bf">Barrier-free</span>':'')+'</div>'+
           '<div class="price-row"><div class="price">'+money(s.price)+' <small>/ month</small></div>'+
-          '<div class="suite-actions"><a class="btn btn-wine btn-sm" href="'+BOOK+'" target="_blank" rel="noopener">Book</a></div></div>'+
+          '<div class="suite-actions"><a class="btn btn-wine btn-sm" href="#contact" data-suite="'+s.unit+'">Book</a></div></div>'+
         '</div></article>';
     }).join('') : '<div class="empty">'+(byDate?'Nothing is ready by '+byDate.toLocaleDateString('en-CA',{month:'long',day:'numeric',year:'numeric'})+'. Try a later date, or ':'No suites match right now. ')+'<a href="#contact">send us a message</a> and we\'ll let you know when one opens up.</div>';
   }
@@ -183,9 +185,12 @@
 
   fetch('data/contact.json',{cache:'no-store'}).then(function(r){ return r.ok?r.json():null; }).then(function(c){
     if(!c) return;
-    if(c.bookingUrl){ BOOK=c.bookingUrl; document.querySelectorAll('[data-book]').forEach(function(a){ a.href=BOOK; }); render(); }
-    if(c.phone){ var digits=c.phone.replace(/[^0-9]/g,''); var tel='+1'+digits.slice(-10);
-      document.querySelectorAll('a[href^="tel:"]').forEach(function(a){ a.href=tel; if(/[0-9]{3}-[0-9]{3}-[0-9]{4}/.test(a.textContent)) a.textContent=a.textContent.replace(/[0-9]{3}-[0-9]{3}-[0-9]{4}/,c.phone); }); }
+    if(c.phone){ var digits=c.phone.replace(/[^0-9]/g,''); var tel='tel:+1'+digits.slice(-10);
+      var re=/[0-9]{3}-[0-9]{3}-[0-9]{4}/;
+      document.querySelectorAll('a[href^="tel:"]').forEach(function(a){ a.href=tel; });
+      document.querySelectorAll('a[href^="tel:"], .phone, .flink, .cline').forEach(function(el){
+        [].forEach.call(el.childNodes,function(n){ if(n.nodeType===3 && re.test(n.nodeValue)) n.nodeValue=n.nodeValue.replace(re,c.phone); });
+      }); }
     if(c.email){ document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){ a.href='mailto:'+c.email; if(a.textContent.indexOf('@')>-1) a.textContent=c.email; }); }
     var n=document.getElementById('notice');
     if(n && c.notice){ n.textContent=c.notice; n.style.display=''; }
@@ -193,8 +198,25 @@
 
   fetch('data/suites.json',{cache:'no-store'}).then(function(r){ return r.ok?r.json():null; }).then(function(d){
     if(!d) return; var live=normalize(d); if(!live.length) return;
-    suites=live; buildWhenChips(); render(); updateCounts();
+    suites=live; buildWhenChips(); render(); updateCounts(); fillSuites();
   }).catch(function(){});
+
+  /* booking form: suite list and preselection */
+  var fSuite=document.getElementById('f-suite'), fDate=document.getElementById('f-date');
+  function fillSuites(){
+    if(!fSuite) return; var keep=fSuite.value;
+    var opts='<option value="Not sure yet">Not sure yet \u2014 show me what\u2019s available</option>';
+    suites.forEach(function(s){ var v='Suite '+s.unit+' \u00b7 '+s.label; opts+='<option value="'+v+'">'+v+' \u00b7 '+money(s.price)+'/mo \u00b7 '+whenLabel(s.available)+'</option>'; });
+    fSuite.innerHTML=opts; if(keep) fSuite.value=keep; if(!fSuite.value) fSuite.value='Not sure yet';
+  }
+  function pickSuite(unit){
+    if(!fSuite || !unit) return; fillSuites();
+    for(var k=0;k<fSuite.options.length;k++){ if(fSuite.options[k].value.indexOf('Suite '+unit+' ')===0){ fSuite.selectedIndex=k; break; } }
+  }
+  if(fDate){ var td=new Date(); td.setMinutes(td.getMinutes()-td.getTimezoneOffset()); fDate.min=td.toISOString().slice(0,10); }
+  fillSuites();
+  document.addEventListener('click',function(e){ var b=e.target.closest('[data-suite]'); if(b) pickSuite(b.getAttribute('data-suite')); });
+  var modalUnit=null;
 
   /* modal gallery */
   var modal=document.getElementById('modal'), mImg=document.getElementById('mImg'), mThumbs=document.getElementById('mThumbs'), gal=[], gi=0, lastFocus=null;
@@ -202,8 +224,8 @@
     suites:{title:'Inside the suites',sub:'Photos show a typical suite. Finishes may vary.',items:[['img/int-open-plan.jpg?v=20260919','Open-plan living'],['img/int-kitchen-detail.jpg?v=20260919','Kitchen'],['img/int-laundry.jpg?v=20260919','In-suite laundry'],['img/int-living-windows.jpg?v=20260919','Living room'],['img/int-bath.jpg?v=20260919','Bathroom'],['img/int-living-kitchen.jpg?v=20260919','Living and kitchen'],['img/int-island.jpg?v=20260919','Kitchen island']]},
     building:{title:'Around the building',sub:'325 University Ave W, Cobourg',items:[['img/ext-frontage.jpg?v=20260919','University Ave W frontage'],['img/aerial-corner.jpg?v=20260919','The corner of the building'],['img/ext-entrance.jpg?v=20260919','Main entrance'],['img/ext-sign.jpg?v=20260919','325 University Ave W'],['img/ext-breezeway.jpg?v=20260919','Breezeway to the courtyard'],['img/aerial-garden.jpg?v=20260919','Landscaping along the walkway'],['img/ext-trees.jpg?v=20260919','Lawn and young trees along the sidewalk'],['img/aerial-parking.jpg?v=20260919','Surface parking'],['img/ext-ev.jpg?v=20260919','EV charging'],['img/amenity-lounge.jpg?v=20260919','Resident lounge'],['img/amenity-wide.jpg?v=20260919','Resident lounge, wide view'],['img/amenity-kitchen.jpg?v=20260919','Lounge kitchen']]}
   };
-  function openGal(title,sub,items,start,showBook){
-    gal=items; gi=start||0; lastFocus=document.activeElement;
+  function openGal(title,sub,items,start,showBook,unit){
+    modalUnit=unit||null; gal=items; gi=start||0; lastFocus=document.activeElement;
     document.getElementById('mTitle').textContent=title; document.getElementById('mSub').textContent=sub;
     document.getElementById('mBook').style.display=showBook?'':'none';
     mThumbs.innerHTML=items.map(function(it,i){ return '<button aria-label="'+it[1]+'"><img src="'+it[0]+'" alt=""></button>'; }).join('');
@@ -214,13 +236,14 @@
   mThumbs.addEventListener('click',function(e){ var b=e.target.closest('button'); if(b) show([].indexOf.call(mThumbs.children,b)); });
   document.getElementById('mPrev').onclick=function(){show(gi-1)}; document.getElementById('mNext').onclick=function(){show(gi+1)};
   document.getElementById('mClose').onclick=close;
+  document.getElementById('mBook').addEventListener('click',function(){ pickSuite(modalUnit); modal.classList.remove('open'); document.body.style.overflow=''; document.body.classList.remove('modal-open'); });
   modal.addEventListener('click',function(e){ if(e.target===modal) close(); });
   addEventListener('keydown',function(e){ if(!modal.classList.contains('open'))return; if(e.key==='Escape')close(); if(e.key==='ArrowLeft')show(gi-1); if(e.key==='ArrowRight')show(gi+1); });
   list.addEventListener('click',function(e){ var b=e.target.closest('.suite-media'); if(!b)return; var s=suites.filter(function(x){return x.unit===b.dataset.unit;})[0];
     var planItems=[[s.planThumb,'Floor plan']];
     if(s.plan && s.plan!==s.planThumb) planItems.push([s.plan,'Floor plan with location in the building']);
     var items=s.photos.map(function(p,i){return [p,'Photo '+(i+1)];}).concat(planItems);
-    openGal(s.label+', Suite '+s.unit, s.sqft+' sq ft, '+s.bath+' bath, '+money(s.price)+'/month, '+whenLabel(s.available), items, 0, true); });
+    openGal(s.label+', Suite '+s.unit, s.sqft+' sq ft, '+s.bath+' bath, '+money(s.price)+'/month, '+whenLabel(s.available), items, 0, true, s.unit); });
   document.querySelectorAll('[data-gal]').forEach(function(f){ f.addEventListener('click',function(){ var g=galleries[f.dataset.gal]; openGal(g.title,g.sub,g.items,+f.dataset.i,false); }); });
 
   /* reveal */
@@ -239,12 +262,14 @@
 
   /* form (Netlify Forms via fetch) */
   var form=document.getElementById('inquiryForm');
+  var OK='Thanks! Your request is in. The leasing team will be in touch to confirm a time.';
   form.addEventListener('submit',function(e){
     e.preventDefault();
-    var btn=form.querySelector('button[type=submit]'); btn.disabled=true; btn.textContent='Sending...';
+    var btn=form.querySelector('button[type=submit]'), t=document.getElementById('thanks');
+    btn.disabled=true; btn.textContent='Sending\u2026'; t.style.display='none';
     fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()})
-      .then(function(r){ if(!r.ok) throw 0; document.getElementById('thanks').style.display='block'; form.reset(); btn.textContent='Sent'; })
-      .catch(function(){ var t=document.getElementById('thanks'); t.style.display='block'; t.innerHTML='Sorry, that didn\'t send. Please email <a href="mailto:leasing@livingincobourg.ca">leasing@livingincobourg.ca</a> or call 416-515-9191.'; btn.disabled=false; btn.textContent='Send message'; });
+      .then(function(r){ if(!r.ok) throw 0; t.className='thanks'; t.textContent=OK; t.style.display='block'; form.reset(); fillSuites(); btn.textContent='Request sent'; })
+      .catch(function(){ t.className='thanks err'; t.innerHTML='Sorry, that didn\u2019t send. Please email <a href="mailto:leasing@livingincobourg.ca">leasing@livingincobourg.ca</a>.'; t.style.display='block'; btn.disabled=false; btn.textContent='Request a viewing'; });
   });
 
   // building photo scroller
