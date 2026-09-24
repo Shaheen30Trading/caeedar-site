@@ -1,52 +1,6 @@
 {
   "suites": [
     {
-      "photos": [],
-      "barrierFree": false,
-      "unit": "112",
-      "price": 1650,
-      "plan": "/img/plan-112.jpg",
-      "sqft": 434,
-      "planThumb": "",
-      "availableNow": true,
-      "bath": 1,
-      "label": "Studio",
-      "availableDate": null,
-      "type": "studio"
-    },
-    {
-      "photos": [
-        "/img/unit-203-1.jpg",
-        "/img/unit-203-2.jpg",
-        "/img/unit-203-3.jpg"
-      ],
-      "barrierFree": false,
-      "unit": "203",
-      "price": 2250,
-      "plan": "/img/plan-203.jpg",
-      "sqft": 700,
-      "planThumb": "",
-      "availableNow": true,
-      "bath": 2,
-      "label": "2 Bedroom",
-      "availableDate": null,
-      "type": "2b"
-    },
-    {
-      "photos": [],
-      "barrierFree": false,
-      "unit": "206",
-      "price": 1900,
-      "plan": "/img/plan-206.jpg",
-      "sqft": 622,
-      "planThumb": "",
-      "availableNow": true,
-      "bath": 1,
-      "label": "1 Bedroom",
-      "availableDate": null,
-      "type": "1b"
-    },
-    {
       "photos": [
         "/img/unit-316-1.jpg",
         "/img/unit-316-2.jpg",
@@ -63,6 +17,42 @@
       "label": "1 Bedroom + Den",
       "availableDate": "2026-10-01",
       "type": "1bd"
+    },
+    {
+      "barrierFree": false,
+      "unit": "408 ",
+      "price": 1930,
+      "plan": "/img/uploads/image-2026-09-24-at-10.28 am.png",
+      "sqft": 562,
+      "availableNow": false,
+      "bath": 1,
+      "label": "1 Bedroom",
+      "availableDate": "2026-10-01",
+      "type": "1b"
+    },
+    {
+      "barrierFree": false,
+      "unit": "409 ",
+      "price": 1710,
+      "plan": "/img/uploads/image-2026-09-24-at-10.30 am.png",
+      "sqft": 495,
+      "availableNow": false,
+      "bath": 1,
+      "label": "Studio",
+      "availableDate": "2026-11-01",
+      "type": "studio"
+    },
+    {
+      "barrierFree": true,
+      "unit": "116",
+      "price": 2350,
+      "plan": "/img/uploads/image-2026-09-24-at-10.31 am.png",
+      "sqft": 736,
+      "availableNow": false,
+      "bath": 1.5,
+      "label": "2 Bedroom ",
+      "availableDate": "2026-12-01",
+      "type": "2b"
     }
   ]
 }
