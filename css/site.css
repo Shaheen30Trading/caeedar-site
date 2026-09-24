@@ -426,12 +426,14 @@ body.modal-open .mobile-bar{display:none!important}
   section.block{padding:76px 0}
   .top .btn-wine{display:none}
   .hero-facts b{font-size:19px}
-  .acro .wrap{gap:22px}
-  .letters{grid-template-columns:1fr 1fr;gap:0 18px}
-  .letter{display:flex;align-items:baseline;gap:12px;border-left:0;border-bottom:1px solid rgba(255,255,255,.18);padding:10px 0}
-  .letter b{font-size:30px;width:24px;flex:none}
-  .letter span{margin-top:0;font-size:16px;color:#fff}
-  .letter:last-child{grid-column:span 2}
+  .acro{padding:52px 0}
+  .acro .wrap{gap:26px}
+  /* one column so the initials read straight down as C-A-E-E-D-A-R */
+  .letters{grid-template-columns:1fr;gap:0}
+  .letter{display:flex;align-items:center;gap:16px;border-left:0;border-bottom:1px solid rgba(255,255,255,.18);padding:13px 0;transform:none;opacity:1}
+  .letter b{font-size:29px;width:34px;flex:none;text-align:center;line-height:1;color:#fff}
+  .letter span{margin-top:0;font-size:17px;color:#fff}
+  .letter:last-child{border-bottom:0}
   .hero-media{aspect-ratio:4/5}
   .hero .lede{font-size:17px}
   .row2{grid-template-columns:1fr}
