@@ -426,14 +426,15 @@ body.modal-open .mobile-bar{display:none!important}
   section.block{padding:76px 0}
   .top .btn-wine{display:none}
   .hero-facts b{font-size:19px}
-  .acro{padding:52px 0}
-  .acro .wrap{gap:26px}
-  /* one column so the initials read straight down as C-A-E-E-D-A-R */
-  .letters{grid-template-columns:1fr;gap:0}
-  .letter{display:flex;align-items:center;gap:16px;border-left:0;border-bottom:1px solid rgba(255,255,255,.18);padding:13px 0;transform:none;opacity:1}
-  .letter b{font-size:29px;width:34px;flex:none;text-align:center;line-height:1;color:#fff}
-  .letter span{margin-top:0;font-size:17px;color:#fff}
-  .letter:last-child{border-bottom:0}
+  .acro{padding:58px 0}
+  .acro .wrap{gap:30px}
+  /* the initials stack into a vertical wordmark, with a spine separating them
+     from the words - reads down as C-A-E-E-D-A-R instead of as a plain list */
+  .letters{grid-template-columns:1fr;gap:0;position:relative}
+  .letters::before{content:"";position:absolute;left:46px;top:4px;bottom:4px;width:1px;background:rgba(255,255,255,.3)}
+  .letter{display:flex;align-items:center;gap:0;border:0;padding:0;min-height:47px;transform:none;opacity:1}
+  .letter b{font-size:40px;width:46px;flex:none;text-align:center;line-height:1;color:#F7B8D2;font-weight:500}
+  .letter span{margin-top:0;font-size:17.5px;color:#fff;padding-left:20px;letter-spacing:.01em}
   .hero-media{aspect-ratio:4/5}
   .hero .lede{font-size:17px}
   .row2{grid-template-columns:1fr}
