@@ -162,7 +162,7 @@ body.menu-open header.top{background:var(--bg)}
 .acro-intro a:hover{color:#F7B8D2;text-decoration-color:#fff}
 .acro-eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#F7B8D2;margin:34px 0 18px}
 
-.pillars{display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:stretch}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
 
 /* pillars now read straight down as C-A-E-E-D-A-R, alternating left/right of a
    center spine so it's a line, not a grid — direction is never in question,
