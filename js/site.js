@@ -72,8 +72,11 @@
       var usable = v && getComputedStyle(v).display!=='none' && !v.error && v.networkState!==3;
       if(usable){
         try{ v.currentTime=0; }catch(e){}
-        var p=v.play(); if(p&&p.catch) p.catch(function(){});
-        clearTimeout(timer); timer=setTimeout(go, 5000);        // if the clip isn't ready, behave like a photo
+        var tryPlay=function(){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); };
+        var cold = v.readyState<2;      // just swapped/reloaded (e.g. the mobile source swap) with nothing buffered yet
+        if(!cold) tryPlay();
+        else v.addEventListener('canplay', function(){ if(slides[si]===s) tryPlay(); }, {once:true});
+        clearTimeout(timer); timer=setTimeout(go, cold ? 9000 : 5000);   // a cold clip on a slow mobile connection needs more runway before we give up on it
         if(v.readyState>=2) schedule(v);
         else v.addEventListener('playing', function(){ if(slides[si]===s) schedule(v); }, {once:true});
       } else {
