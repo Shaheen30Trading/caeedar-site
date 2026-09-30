@@ -72,42 +72,42 @@
 
 <main id="main">
 <section class="hero" id="top-hero">
-  <div class="hero-inner">
-    <div class="hero-copy">
-      <p class="kicker"><span class="kr"></span>Living in Cobourg &nbsp;·&nbsp; 325 University Ave W</p>
-      <h1>Live in<br><em>Cobourg.</em></h1>
-      <div class="rotator" aria-live="polite">
-        <span class="rot-item is-on">A kilometre of sand beach on Lake Ontario</span>
-        <span class="rot-item">Steps from Victoria Hall and King Street</span>
-        <span class="rot-item">A harbour full of sailboats, a block from the shops</span>
-        <span class="rot-item">One hour east of Toronto, a world away from it</span>
-      </div>
-      <p class="lede">Trade the commute for a ten-minute walk to the water. New apartments for rent in the middle of a lakeside town of 20,000, an hour east of Toronto.</p>
-      <div class="cta-row">
-        <a class="btn btn-wine" href="#suites">See available suites</a>
-        <a class="btn btn-line" href="#cobourg">Why Cobourg</a>
-      </div>
-      <div class="avail-pill"><span class="dot"></span><span id="availCount">Currently renting</span></div>
-    </div>
-    <div class="hero-art">
-      <figure class="art-main">
-        <div class="slides" aria-hidden="true">
-          <div class="slide s1 is-on">
-            <video muted playsinline preload="auto" poster="video/town-kingst-poster.jpg?v=20260919" data-mobile="video/town-kingst-m.mp4?v=20260919">
-              <source src="video/town-kingst.mp4?v=20260919" type="video/mp4">
-            </video>
-          </div>
-          <div class="slide s2">
-            <video muted playsinline preload="auto" poster="video/town-harbour-poster.jpg?v=20260919" data-mobile="video/town-harbour-m.mp4?v=20260919">
-              <source src="video/town-harbour.mp4?v=20260919" type="video/mp4">
-            </video>
-          </div>
-          <div class="slide s3"></div>
+  <div class="hero-stage">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="slides">
+        <div class="slide s1 is-on">
+          <video muted playsinline preload="auto" poster="video/town-kingst-poster.jpg?v=20260919" data-mobile="video/town-kingst-m.mp4?v=20260919">
+            <source src="video/town-kingst.mp4?v=20260919" type="video/mp4">
+          </video>
         </div>
-        <figcaption id="shotCaption">King Street, downtown Cobourg</figcaption>
-      </figure>
-      <figure class="art-inset"><img src="img/inset-sign.jpg?v=20260919" alt="The corten steel sign at 325 University Ave W, Cobourg" loading="lazy"></figure>
+        <div class="slide s2">
+          <video muted playsinline preload="auto" poster="video/town-harbour-poster.jpg?v=20260919" data-mobile="video/town-harbour-m.mp4?v=20260919">
+            <source src="video/town-harbour.mp4?v=20260919" type="video/mp4">
+          </video>
+        </div>
+        <div class="slide s3"></div>
+      </div>
+      <div class="hero-scrim"></div>
     </div>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="kicker"><span class="kr"></span>Living in Cobourg &nbsp;·&nbsp; 325 University Ave W</p>
+        <h1>Live in<br><em>Cobourg.</em></h1>
+        <div class="rotator" aria-live="polite">
+          <span class="rot-item is-on">A kilometre of sand beach on Lake Ontario</span>
+          <span class="rot-item">Steps from Victoria Hall and King Street</span>
+          <span class="rot-item">A harbour full of sailboats, a block from the shops</span>
+          <span class="rot-item">One hour east of Toronto, a world away from it</span>
+        </div>
+        <p class="lede">Trade the commute for a ten-minute walk to the water. New apartments for rent in the middle of a lakeside town of 20,000, an hour east of Toronto.</p>
+        <div class="cta-row">
+          <a class="btn btn-wine" href="#suites">See available suites</a>
+          <a class="btn btn-line" href="#cobourg">Why Cobourg</a>
+        </div>
+        <div class="avail-pill"><span class="dot"></span><span id="availCount">Currently renting</span></div>
+      </div>
+    </div>
+    <p class="hero-caption" id="shotCaption">King Street, downtown Cobourg</p>
   </div>
   <div class="hero-bar">
     <div class="wrap">
@@ -120,16 +120,21 @@
 </section>
 
 <section class="acro" id="name">
+  <div class="acro-bg" aria-hidden="true"><img src="img/amenity-lounge.jpg?v=20260919" alt="" loading="lazy"></div>
   <div class="wrap">
-    <div class="acro-intro"><h2 style="font-size:30px">What's in a name</h2><p>CAEEDAR stands for everything the building was made to be.</p></div>
-    <div class="letters">
-      <div class="letter" style="transition-delay:.0s"><b>C</b><span>Cobourg</span></div>
-      <div class="letter" style="transition-delay:.08s"><b>A</b><span>Accessible</span></div>
-      <div class="letter" style="transition-delay:.16s"><b>E</b><span>Energy</span></div>
-      <div class="letter" style="transition-delay:.24s"><b>E</b><span>Efficient</span></div>
-      <div class="letter" style="transition-delay:.32s"><b>D</b><span>Downtown</span></div>
-      <div class="letter" style="transition-delay:.40s"><b>A</b><span>Apartment</span></div>
-      <div class="letter" style="transition-delay:.48s"><b>R</b><span>Rentals</span></div>
+    <div class="acro-intro"><h2 style="font-size:30px">What's in a name</h2><p>CAEEDAR takes its name from everything this building was built to be — and everything Cobourg already is. Find the town's concerts, markets and lakefront events at <a href="https://www.experiencecobourg.ca/" target="_blank" rel="noopener">Experience Cobourg</a>, then come home to an apartment built to match: geothermal-efficient, and right in the middle of it all.</p></div>
+    <p class="acro-eyebrow">Our core pillars</p>
+    <div class="pillars">
+      <div class="pillars-grid">
+        <div class="pillar"><div class="pillar-badge"><b>C</b></div><div class="pillar-copy"><strong>Cobourg</strong><span>A town away from the city rush</span></div></div>
+        <div class="pillar"><div class="pillar-badge"><b>A</b></div><div class="pillar-copy"><strong>Accessible</strong><span>Barrier-free suites and elevator access</span></div></div>
+        <div class="pillar"><div class="pillar-badge"><b>E</b></div><div class="pillar-copy"><strong>Energy</strong><span>Heated and cooled by the ground below</span></div></div>
+        <div class="pillar"><div class="pillar-badge"><b>E</b></div><div class="pillar-copy"><strong>Efficient</strong><span>No furnace bill, no air conditioning bill</span></div></div>
+        <div class="pillar"><div class="pillar-badge"><b>D</b></div><div class="pillar-copy"><strong>Downtown</strong><span>Steps from King Street and the beach</span></div></div>
+        <div class="pillar"><div class="pillar-badge"><b>A</b></div><div class="pillar-copy"><strong>Apartment</strong><span>Studio to two bedroom suites</span></div></div>
+        <div class="pillar"><div class="pillar-badge"><b>R</b></div><div class="pillar-copy"><strong>Rentals</strong><span>Move-in ready, flexible leases</span></div></div>
+      </div>
+      <figure class="pillar-photo"><img src="img/ext-corner.jpg?v=20260919" alt="CAEEDAR at 325 University Ave W, Cobourg" loading="lazy"></figure>
     </div>
   </div>
 </section>
