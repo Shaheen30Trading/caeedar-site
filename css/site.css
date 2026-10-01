@@ -190,6 +190,11 @@ body.menu-open header.top{background:var(--bg)}
 .pillar-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease}
 .pillar-photo:hover img{transform:scale(1.07)}
 
+/* section divider — the wine "strip" used between blocks to keep a
+   connected, always-dark flow instead of hard light/dark contrast */
+.section-divider{height:10px;background:linear-gradient(90deg,var(--wine-ink) 0%,var(--wine) 50%,var(--wine-ink) 100%)}
+@media (max-width:700px){.section-divider{height:7px}}
+
 section.block{padding:110px 0}
 .sec-head{display:flex;justify-content:space-between;align-items:end;gap:28px;flex-wrap:wrap;margin-bottom:40px}
 .sec-head .lede{margin-top:12px}
