@@ -1,18 +1,14 @@
 {
   "suites": [
     {
-      "photos": [
-        "/img/unit-316-1.jpg",
-        "/img/unit-316-2.jpg",
-        "/img/unit-316-3.jpg"
-      ],
+      "photos": [],
       "barrierFree": false,
       "unit": "316",
-      "price": 1900,
+      "price": 1990,
       "plan": "/img/plan-316.jpg",
       "sqft": 601,
       "planThumb": "/img/plan-thumb-316.jpg",
-      "availableNow": false,
+      "availableNow": true,
       "bath": 1,
       "label": "1 Bedroom + Den",
       "availableDate": "2026-10-01",
@@ -26,7 +22,7 @@
       "plan": "/img/plan-408.jpg",
       "sqft": 563,
       "planThumb": "/img/plan-thumb-408.jpg",
-      "availableNow": false,
+      "availableNow": true,
       "bath": 1,
       "label": "1 Bedroom",
       "availableDate": "2026-10-01",
@@ -55,7 +51,7 @@
       "sqft": 754,
       "planThumb": "/img/plan-thumb-116.jpg",
       "availableNow": false,
-      "bath": 2,
+      "bath": 1.5,
       "label": "2 Bedroom",
       "availableDate": "2026-12-01",
       "type": "2b"
