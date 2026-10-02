@@ -1,0 +1,16 @@
+# Old WordPress addresses -> matching sections of the new single-page site.
+# First matching rule wins. Existing files are never overridden.
+
+/properties                 /#suites     301
+/properties/*               /#suites     301
+/gallery                    /#building   301
+/gallery/*                  /#building   301
+/registration               /#contact    301
+/registration/*             /#contact    301
+/features/coin-laundry      /#included   301
+/features/coin-laundry/*    /#included   301
+/features                   /#features   301
+/features/*                 /#features   301
+
+# Any other old address that no longer exists -> home page
+/*                          /            301
