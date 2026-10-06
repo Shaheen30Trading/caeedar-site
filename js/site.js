@@ -31,9 +31,11 @@
     setInterval(function(){ rots[ri].classList.remove('is-on'); ri=(ri+1)%rots.length; rots[ri].classList.add('is-on'); }, 2600);
   }
 
-  /* phones get the lighter cut of each hero clip */
-  if(window.matchMedia && matchMedia('(max-width:820px)').matches){
+  /* phones get the lighter cut of each clip; a video can set its own breakpoint and poster */
+  if(window.matchMedia){
     [].forEach.call(document.querySelectorAll('video[data-mobile]'),function(v){
+      if(!matchMedia(v.getAttribute('data-mobile-media')||'(max-width:820px)').matches) return;
+      var mp=v.getAttribute('data-mobile-poster'); if(mp) v.setAttribute('poster', mp);
       var s=v.querySelector('source'); if(!s) return;
       if(s.hasAttribute('data-src')) s.setAttribute('data-src', v.getAttribute('data-mobile'));   // lazy: swap before it loads
       else { s.setAttribute('src', v.getAttribute('data-mobile')); v.load(); }
