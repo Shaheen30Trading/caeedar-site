@@ -148,6 +148,13 @@ body.menu-open header.top{background:var(--bg)}
 .cobourg .lake{margin:0;position:relative;border-radius:24px;overflow:hidden;aspect-ratio:5/7;max-height:860px;justify-self:end;width:min(100%,600px);background:var(--surface)}
 .cobourg .lake video,.cobourg .lake img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0%}
 .cobourg .lake figcaption{position:absolute;left:16px;bottom:16px;background:rgba(27,20,24,.72);color:#fff;font-size:13.5px;padding:6px 12px;border-radius:999px}
+/* aerial photo mosaic under the intro: one large, two stacked */
+.town-gallery{display:grid;grid-template-columns:1.75fr 1fr;grid-template-rows:1fr 1fr;gap:16px;margin-top:64px}
+.town-gallery figure{margin:0;position:relative;border-radius:var(--radius);overflow:hidden;background:var(--surface);min-height:0}
+.town-gallery .tg-main{grid-row:1 / span 2;aspect-ratio:16/10}
+.town-gallery img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.town-gallery figure:hover img{transform:scale(1.04)}
+.town-gallery figcaption{position:absolute;left:14px;bottom:14px;margin-right:14px;background:rgba(27,20,24,.72);color:#fff;font-size:13.5px;line-height:1.35;padding:6px 12px;border-radius:999px}
 .eyebrow{font-size:13.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-text);margin-bottom:10px;font-weight:700}
 
 /* acronym — a moody photo backdrop with a grid of glass "pillar" cards */
@@ -450,6 +457,10 @@ body.modal-open .mobile-bar{display:none!important}
   .town-stats div:last-child{grid-column:span 2;padding-left:0!important;border-right:0}
   .town-cards{grid-template-columns:1fr;gap:16px;margin-top:48px}
   .town-cards figure{aspect-ratio:1/1}
+  .town-gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto;gap:10px;margin-top:44px}
+  .town-gallery .tg-main{grid-column:1 / -1;grid-row:auto;aspect-ratio:16/10}
+  .town-gallery figure:not(.tg-main){aspect-ratio:1/1}
+  .town-gallery figcaption{left:10px;bottom:10px;margin-right:10px;font-size:12px;padding:5px 10px;border-radius:12px}
   section.block{padding:76px 0}
   .top .btn-wine{display:none}
   .hero-facts b{font-size:19px}
