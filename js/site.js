@@ -171,10 +171,10 @@
           '<span class="media-tag">'+(hasPhoto?(s.photos.length+' photos + floor plan'):(isType?'Similar suite \u00b7 view floor plan':'View floor plan'))+'</span>'+
         '</button>'+
         '<div class="suite-body">'+
-          '<div class="suite-top"><h3>'+s.label+'</h3><span class="unitno">Suite '+s.unit+'</span></div>'+
+          '<div class="suite-top"><h3><a href="suites/'+s.unit+'/">'+s.label+'</a></h3><span class="unitno">Suite '+s.unit+'</span></div>'+
           '<div class="meta"><span>'+s.sqft+' sq ft</span><span>'+s.bath+' bath</span>'+(s.bf?'<span class="bf">Barrier-free</span>':'')+'</div>'+
           '<div class="price-row"><div class="price">'+money(s.price)+' <small>/ month</small></div>'+
-          '<div class="suite-actions"><a class="btn btn-wine btn-sm" href="#contact" data-suite="'+s.unit+'">Book</a></div></div>'+
+          '<div class="suite-actions"><a class="btn btn-line btn-sm" href="suites/'+s.unit+'/">Details</a><a class="btn btn-wine btn-sm" href="#contact" data-suite="'+s.unit+'">Book</a></div></div>'+
         '</div></article>';
     }).join('') : '<div class="empty">'+(byDate?'Nothing is ready by '+byDate.toLocaleDateString('en-CA',{month:'long',day:'numeric',year:'numeric'})+'. Try a later date, or ':'No suites match right now. ')+'<a href="#contact">send us a message</a> and we\'ll let you know when one opens up.</div>';
   }

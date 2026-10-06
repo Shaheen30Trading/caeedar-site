@@ -10,8 +10,16 @@
 /  page_id=:id           /404.html    404!
 /  post_type=:type       /404.html    404!
 
-/properties                /#suites     301
-/properties/*               /#suites     301
+# Suite pages are built from data/suites.json (scripts/build.mjs). A suite
+# that has been removed has no page, so its address gets the "this suite has
+# been rented" page with a 404, and Google drops it.
+/suites                     /#suites                   301
+/suites/*                   /suite-unavailable.html    404
+
+# Old WordPress unit pages (/properties/unit-303-2-bedroom etc.) are gone too.
+/properties                 /#suites                   301
+/properties/*               /suite-unavailable.html    404
+
 /gallery                    /#building   301
 /gallery/*                  /#building   301
 /registration               /#contact    301
