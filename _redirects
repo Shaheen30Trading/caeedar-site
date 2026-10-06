@@ -1,7 +1,16 @@
 # Old WordPress addresses -> matching sections of the new single-page site.
 # First matching rule wins. Existing files are never overridden.
 
-/properties                 /#suites     301
+# Old WordPress query-string addresses (?p=, ?page_id=, ?post_type=).
+# The old site was hacked and thousands of spam posts lived at these
+# addresses. Netlify ignores query strings when serving files, so without
+# these rules they load the home page. Answer "not found" instead, so
+# Google drops them.
+/  p=:p                  /404.html    404!
+/  page_id=:id           /404.html    404!
+/  post_type=:type       /404.html    404!
+
+/properties                /#suites     301
 /properties/*               /#suites     301
 /gallery                    /#building   301
 /gallery/*                  /#building   301
@@ -12,5 +21,4 @@
 /features                   /#features   301
 /features/*                 /#features   301
 
-# Any other old address that no longer exists -> home page
-/*                          /            301
+# Any other address that doesn't exist gets 404.html automatically.
