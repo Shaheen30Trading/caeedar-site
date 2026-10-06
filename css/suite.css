@@ -1,0 +1,81 @@
+/* Suite pages (suites/<unit>/) and the "suite no longer available" page.
+   Built by scripts/build.mjs; layered on top of site.css. */
+.sp main{padding-top:74px}
+.sp-crumbs{padding-top:26px;font-size:14px;color:var(--muted)}
+.sp-crumbs a{color:var(--muted);text-decoration:none}
+.sp-crumbs a:hover{color:var(--ink)}
+.sp-crumbs span{margin:0 6px;opacity:.6}
+
+.sp-hero{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:start;padding-top:22px;padding-bottom:64px}
+.sp-gallery{min-width:0}
+.sp-main{margin:0;position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;background:var(--surface)}
+.sp-main img{width:100%;height:100%;object-fit:cover;display:block}
+.sp-main figcaption{position:absolute;left:14px;bottom:14px;background:rgba(27,20,24,.75);color:#fff;font-size:13px;padding:5px 11px;border-radius:999px}
+.sp-thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;padding-bottom:4px}
+.sp-thumbs button{flex:0 0 96px;height:72px;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;cursor:pointer;background:var(--surface);opacity:.75;transition:opacity .2s,border-color .2s}
+.sp-thumbs button[aria-current="true"],.sp-thumbs button:hover{opacity:1;border-color:var(--accent-text)}
+.sp-thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+
+.sp-info{position:sticky;top:100px;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:30px}
+.sp-info h1{font-size:clamp(34px,3.6vw,48px)}
+.sp-facts{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);margin-top:12px}
+.sp-facts .bf{color:var(--accent-text);font-weight:700}
+.sp-when{display:inline-block;margin-top:16px;font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:var(--blush);color:var(--ink)}
+.sp-when.now{background:#1F7A4A;color:#fff}
+.sp-price{font-size:38px;font-weight:700;margin-top:18px;line-height:1.1}
+.sp-price small{font-size:16px;font-weight:500;color:var(--muted)}
+.sp-incl{color:var(--muted);margin-top:6px;font-size:15.5px}
+.sp-ctas{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.sp-apply{display:inline-block;margin-top:16px;font-size:14.5px;color:var(--accent-text)}
+
+.sp-details{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start;padding-bottom:90px;border-top:1px solid var(--line);padding-top:64px}
+.sp-details h2{font-size:clamp(28px,3vw,38px);margin-bottom:18px}
+.sp-details h3{font-size:22px;margin:34px 0 12px}
+.sp-about p{color:var(--muted);margin-bottom:14px;max-width:640px}
+.sp-list{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 22px}
+.sp-list li{padding-left:24px;position:relative;font-size:15.5px}
+.sp-list li::before{content:"";position:absolute;left:2px;top:.55em;width:11px;height:6px;border-left:2px solid var(--accent-text);border-bottom:2px solid var(--accent-text);transform:rotate(-45deg)}
+.sp-extras{list-style:none;padding:0;margin:0;max-width:420px}
+.sp-extras li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+.sp-extras span{color:var(--muted)}
+.sp-plan img{width:100%;border-radius:var(--radius);background:#FBF8F6;padding:12px;display:block}
+.sp-plan-link{display:inline-block;margin-top:12px;font-size:14.5px;color:var(--accent-text)}
+
+.sp-book{background:var(--blush);padding:90px 0}
+.sp-book-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:start}
+.sp-book h2{font-size:clamp(30px,3.4vw,44px)}
+.sp-contact{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+.sp-contact a{font-weight:700;font-size:17px;text-decoration:none;color:var(--ink);overflow-wrap:anywhere}
+.sp-contact a:hover{color:var(--accent-text)}
+
+.sp-others{padding-top:90px;padding-bottom:100px}
+.sp-others h2{font-size:clamp(28px,3vw,38px);margin-bottom:26px}
+.sp-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.sp-card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .25s ease}
+.sp-card:hover{transform:translateY(-3px)}
+.sp-card-media{position:relative;aspect-ratio:4/3;overflow:hidden;display:block}
+.sp-card-media img{width:100%;height:100%;object-fit:cover;display:block}
+.sp-card-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:4px}
+.sp-card-body b{font-family:var(--display);font-weight:600;font-size:22px}
+.sp-card-body span{color:var(--muted);font-size:14.5px}
+.sp-card-body strong{font-size:20px;margin-top:6px}
+.sp-card-body small{font-size:13.5px;font-weight:500;color:var(--muted)}
+
+.sp-gone{padding-top:70px;padding-bottom:90px}
+.sp-gone h1{font-size:clamp(36px,5vw,58px);margin-bottom:16px}
+.sp-gone .lede{margin-bottom:34px;max-width:620px}
+
+@media (max-width:1000px){
+  .sp-hero,.sp-details,.sp-book-grid{grid-template-columns:1fr;gap:32px}
+  .sp-info{position:static}
+}
+@media (max-width:700px){
+  .sp-hero{padding-bottom:48px}
+  .sp-info{padding:22px}
+  .sp-price{font-size:32px}
+  .sp-list{grid-template-columns:1fr}
+  .sp-details{padding-top:48px;padding-bottom:64px}
+  .sp-book{padding:64px 0}
+  .sp-others{padding-top:64px;padding-bottom:72px}
+  .sp-thumbs button{flex-basis:78px;height:60px}
+}

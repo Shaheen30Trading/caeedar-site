@@ -11,9 +11,9 @@ publish_mode: editorial_workflow
 media_folder: "img/uploads"
 public_folder: "/img/uploads"
 
-site_url: https://caeedar-preview.netlify.app
-display_url: https://caeedar-preview.netlify.app
-logo_url: https://caeedar-preview.netlify.app/img/logo.png
+site_url: https://livingincobourg.ca
+display_url: https://livingincobourg.ca
+logo_url: https://livingincobourg.ca/img/logo.png
 
 collections:
   - name: suites
@@ -22,7 +22,7 @@ collections:
       - name: list
         label: "Available suites"
         file: "data/suites.json"
-        description: "Every suite here shows on the website. Delete a suite with the ✕ when it is rented."
+        description: "Every suite here shows on the website and gets its own page at livingincobourg.ca/suites/<unit number>/. Pages update a minute or two after you publish. Delete a suite with the ✕ when it is rented: its page is removed automatically and visitors to the old link are shown the suites that are still available."
         format: json
         editor:
           preview: false
@@ -55,6 +55,8 @@ collections:
               - { name: plan, label: "Floor plan image", widget: image, required: false, allow_multiple: false }
               - { name: planThumb, label: "Floor plan close-up (shown on the card)", widget: image, required: false, allow_multiple: false, hint: "Optional. If empty, the floor plan above is used." }
               - { name: photos, label: "Photos of this suite", widget: list, required: false, field: { name: photo, label: Photo, widget: image } }
+              - { name: description, label: "Description on the suite page", widget: text, required: false, hint: "Optional. A few sentences about this suite (view, layout, upgrades). Leave empty to use the standard description for this suite type. Leave a blank line between paragraphs." }
+              - { name: highlights, label: "Extra highlights on the suite page", widget: list, required: false, field: { name: highlight, label: Highlight, widget: string }, hint: "Optional. Short points such as Corner suite, South-facing balcony or Newly painted. Standard features (heat and water included, in-suite laundry and so on) are already listed." }
 
   - name: contact
     label: "Contact details"

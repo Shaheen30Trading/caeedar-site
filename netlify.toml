@@ -1,5 +1,7 @@
 [build]
   publish = "."
+  # Builds one page per suite from data/suites.json, plus the sitemap.
+  command = "node scripts/build.mjs"
 
 [[headers]]
   for = "/*"

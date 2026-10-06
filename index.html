@@ -168,6 +168,12 @@
       </figure>
     </div>
 
+    <div class="town-gallery reveal">
+      <figure class="tg-main"><img src="img/cob-aerial-harbour-beach.jpg?v=20261006" alt="Aerial view of Cobourg Harbour marina, Victoria Park Beach and Lake Ontario" width="1182" height="665" loading="lazy"><figcaption>The harbour, the beach and Lake Ontario</figcaption></figure>
+      <figure><img src="img/cob-aerial-downtown.jpg?v=20261006" alt="Aerial view of downtown Cobourg in autumn, with the harbour in the corner" width="1182" height="665" loading="lazy"><figcaption>Downtown, a short walk from the water</figcaption></figure>
+      <figure><img src="img/cob-aerial-town.jpg?v=20261006" alt="Aerial view over Cobourg’s rooftops and tree-lined streets toward the hills" width="1182" height="665" loading="lazy"><figcaption>Tree-lined streets and neighbourhoods</figcaption></figure>
+    </div>
+
     <div class="town-stats reveal">
       <div><b>1 hr</b><span>East of Toronto on the 401</span></div>
       <div><b>1 km</b><span>Of sand beach and boardwalk</span></div>
@@ -195,8 +201,8 @@
   <div class="wrap">
     <div class="bgrid">
       <div class="bmedia reveal">
-        <video autoplay muted loop playsinline preload="none" poster="video/building-poster.jpg?v=20260919" data-lazyvideo data-mobile="video/building-m.mp4?v=20260919" aria-label="Drone video along the building, around the parking lot and back to the main entrance">
-          <source data-src="video/building.mp4?v=20260919" type="video/mp4">
+        <video autoplay muted loop playsinline preload="none" poster="video/building-poster.jpg?v=20261006" data-lazyvideo data-mobile="video/building-m.mp4?v=20261006" data-mobile-poster="video/building-m-poster.jpg?v=20261006" data-mobile-media="(max-width:1000px)" aria-label="Drone video along the building, down the side lane, past the parking lot to the main entrance">
+          <source data-src="video/building.mp4?v=20261006" type="video/mp4">
         </video>
       </div>
       <div class="reveal">
@@ -281,7 +287,12 @@
         </div>
       </div>
     </div>
-    <div class="suites" id="suiteList"></div>
+    <div class="suites" id="suiteList"><!--suites:start-->
+      <a class="suite-link" href="suites/408/">1 Bedroom, suite 408: 563 sq ft, $1,930/month, available now</a>
+      <a class="suite-link" href="suites/316/">1 Bedroom + Den, suite 316: 601 sq ft, $1,990/month, available now</a>
+      <a class="suite-link" href="suites/409/">Studio, suite 409: 495 sq ft, $1,710/month, available November 1</a>
+      <a class="suite-link" href="suites/116/">2 Bedroom, suite 116: 754 sq ft, $2,350/month, available December 1</a>
+      <!--suites:end--></div>
   </div>
 </section>
 <div class="section-divider" aria-hidden="true"></div>
@@ -430,19 +441,66 @@
 </div>
 
 <script id="suiteData" type="application/json">
-[
- {"unit":"112","type":"studio","label":"Studio","sqft":434,"bath":1,"price":1650,"available":"now","bf":false,"photos":[]},
- {"unit":"203","type":"2b","label":"2 Bedroom","sqft":700,"bath":2,"price":2250,"available":"now","bf":false,"photos":["img/unit-203-1.jpg?v=20260919","img/unit-203-2.jpg?v=20260919","img/unit-203-3.jpg?v=20260919"]},
- {"unit":"206","type":"1b","label":"1 Bedroom","sqft":622,"bath":1,"price":1800,"available":"now","bf":false,"photos":[]},
- {"unit":"217","type":"1bd","label":"1 Bedroom + Den","sqft":666,"bath":1,"price":2000,"available":"now","bf":false,"photos":["img/unit-217-1.jpg?v=20260919","img/unit-217-2.jpg?v=20260919","img/unit-217-3.jpg?v=20260919"]},
- {"unit":"303","type":"2b","label":"2 Bedroom","sqft":700,"bath":2,"price":2250,"available":"now","bf":false,"photos":["img/unit-303-1.jpg?v=20260919","img/unit-303-2.jpg?v=20260919","img/unit-303-3.jpg?v=20260919"]},
- {"unit":"316","type":"1bd","label":"1 Bedroom + Den","sqft":601,"bath":1,"price":1900,"available":"2026-10-01","bf":false,"photos":["img/unit-316-1.jpg?v=20260919","img/unit-316-2.jpg?v=20260919","img/unit-316-3.jpg?v=20260919"]},
- {"unit":"408","type":"1b","label":"1 Bedroom","sqft":563,"bath":1,"price":1930,"available":"2026-10-01","bf":false,"photos":[]},
- {"unit":"409","type":"studio","label":"Studio","sqft":495,"bath":1,"price":1710,"available":"2026-11-01","bf":false,"photos":[]},
- {"unit":"415","type":"studio","label":"Studio","sqft":337,"bath":1,"price":1595,"available":"2026-11-01","bf":false,"photos":[]},
- {"unit":"314","type":"1bd","label":"1 Bedroom + Den","sqft":676,"bath":1,"price":1950,"available":"2026-12-01","bf":false,"photos":[]},
- {"unit":"116","type":"2b","label":"2 Bedroom","sqft":754,"bath":2,"price":2350,"available":"2026-12-01","bf":true,"photos":[]}
-]
+{
+ "suites": [
+  {
+   "photos": [],
+   "barrierFree": false,
+   "unit": "316",
+   "price": 1990,
+   "plan": "/img/plan-316.jpg",
+   "sqft": 601,
+   "planThumb": "/img/plan-thumb-316.jpg",
+   "availableNow": true,
+   "bath": 1,
+   "label": "1 Bedroom + Den",
+   "availableDate": "2026-10-01",
+   "type": "1bd"
+  },
+  {
+   "photos": [],
+   "barrierFree": false,
+   "unit": "408",
+   "price": 1930,
+   "plan": "/img/plan-408.jpg",
+   "sqft": 563,
+   "planThumb": "/img/plan-thumb-408.jpg",
+   "availableNow": true,
+   "bath": 1,
+   "label": "1 Bedroom",
+   "availableDate": "2026-10-01",
+   "type": "1b"
+  },
+  {
+   "photos": [],
+   "barrierFree": false,
+   "unit": "409",
+   "price": 1710,
+   "plan": "/img/plan-409.jpg",
+   "sqft": 495,
+   "planThumb": "/img/plan-thumb-409.jpg",
+   "availableNow": false,
+   "bath": 1,
+   "label": "Studio",
+   "availableDate": "2026-11-01",
+   "type": "studio"
+  },
+  {
+   "photos": [],
+   "barrierFree": true,
+   "unit": "116",
+   "price": 2350,
+   "plan": "/img/plan-116.jpg",
+   "sqft": 754,
+   "planThumb": "/img/plan-thumb-116.jpg",
+   "availableNow": false,
+   "bath": 1.5,
+   "label": "2 Bedroom",
+   "availableDate": "2026-12-01",
+   "type": "2b"
+  }
+ ]
+}
 </script>
 
 <script src="js/site.js" defer></script>
