@@ -12,7 +12,14 @@
       "bath": 1,
       "label": "1 Bedroom",
       "availableDate": "2026-10-01",
-      "type": "1b"
+      "type": "1b",
+      "features": {
+        "utilitiesIncluded": true,
+        "laundry": true,
+        "kitchen": true,
+        "centralAir": true,
+        "tallWindows": true
+      }
     },
     {
       "photos": [],
@@ -26,7 +33,14 @@
       "bath": 1,
       "label": "Studio",
       "availableDate": "2026-11-01",
-      "type": "studio"
+      "type": "studio",
+      "features": {
+        "utilitiesIncluded": true,
+        "laundry": true,
+        "kitchen": true,
+        "centralAir": true,
+        "tallWindows": true
+      }
     },
     {
       "photos": [],
@@ -40,7 +54,14 @@
       "bath": 1.5,
       "label": "2 Bedroom",
       "availableDate": "2027-01-04",
-      "type": "2b"
+      "type": "2b",
+      "features": {
+        "utilitiesIncluded": true,
+        "laundry": true,
+        "kitchen": true,
+        "centralAir": true,
+        "tallWindows": true
+      }
     }
   ]
 }

@@ -52,11 +52,22 @@ collections:
               - { name: availableNow, label: "Available now", widget: boolean, default: false, hint: "Turn on if the suite is ready today. If off, set the date below." }
               - { name: availableDate, label: "Available from", widget: datetime, required: false, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", hint: "Leave empty if available now." }
               - { name: barrierFree, label: "Barrier-free suite", widget: boolean, default: false }
+              - name: features
+                label: "Features in this suite"
+                widget: object
+                collapsed: false
+                hint: "Ticked features are listed on the suite's page. Untick anything this suite does not have."
+                fields:
+                  - { name: utilitiesIncluded, label: "Heat, cooling and water included (geothermal)", widget: boolean, default: true, required: false }
+                  - { name: laundry, label: "In-suite washer and dryer", widget: boolean, default: true, required: false }
+                  - { name: kitchen, label: "Full kitchen with dishwasher and microwave", widget: boolean, default: true, required: false }
+                  - { name: centralAir, label: "Central air", widget: boolean, default: true, required: false }
+                  - { name: tallWindows, label: "Tall windows", widget: boolean, default: true, required: false }
               - { name: plan, label: "Floor plan image", widget: image, required: false, allow_multiple: false }
               - { name: planThumb, label: "Floor plan close-up (shown on the card)", widget: image, required: false, allow_multiple: false, hint: "Optional. If empty, the floor plan above is used." }
               - { name: photos, label: "Photos of this suite", widget: list, required: false, field: { name: photo, label: Photo, widget: image } }
               - { name: description, label: "Description on the suite page", widget: text, required: false, hint: "Optional. A few sentences about this suite (view, layout, upgrades). Leave empty to use the standard description for this suite type. Leave a blank line between paragraphs." }
-              - { name: highlights, label: "Extra highlights on the suite page", widget: list, required: false, field: { name: highlight, label: Highlight, widget: string }, hint: "Optional. Short points such as Corner suite, South-facing balcony or Newly painted. Standard features (heat and water included, in-suite laundry and so on) are already listed." }
+              - { name: highlights, label: "Extra highlights on the suite page", widget: list, required: false, field: { name: highlight, label: Highlight, widget: string }, hint: "Optional. Anything not in the checkboxes above, such as Corner suite, South-facing balcony or Newly painted." }
 
   - name: contact
     label: "Contact details"

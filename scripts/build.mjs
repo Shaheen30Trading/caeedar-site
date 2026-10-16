@@ -35,6 +35,14 @@ const BLURB = {
   '2b': 'A two bedroom with an open living and kitchen area, tall windows and in-suite laundry. Space for a family, a roommate or a dedicated office.',
   '2bd': 'A two bedroom with a separate den, an open living and kitchen area, tall windows and in-suite laundry.',
 };
+// Keys match the "features" checkboxes in admin/config.yml
+const FEATURES = [
+  ['utilitiesIncluded', 'Heat, cooling and water included (geothermal)'],
+  ['laundry', 'In-suite washer and dryer'],
+  ['kitchen', 'Full kitchen with dishwasher and microwave'],
+  ['centralAir', 'Central air'],
+  ['tallWindows', 'Tall windows'],
+];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -57,6 +65,8 @@ const suites = (raw.suites || raw).map((s) => {
     photos: (s.photos || []).map(abs).filter(Boolean),
     description: (s.description || '').trim(),
     highlights: (s.highlights || []).map((h) => String(h).trim()).filter(Boolean),
+    // ticked in the portal's "Features in this suite" checkboxes; a box that has never been set counts as ticked
+    features: FEATURES.filter(([key]) => (s.features || {})[key] !== false).map(([, text]) => text),
   };
 }).filter((s) => s.unit)
   .sort((a, b) => (isNow(a) ? '0' : a.availableDate).localeCompare(isNow(b) ? '0' : b.availableDate) || a.price - b.price);
@@ -196,11 +206,9 @@ const suitePage = (s) => {
   const gallery = typical ? TYPICAL : s.photos.map((p, i) => [p, `Suite ${s.unit}, photo ${i + 1}`]);
   const lower = s.label.toLowerCase();
   const title = `Suite ${s.unit}: ${s.label} for Rent in Cobourg, ${money(s.price)}/mo | CAEEDAR`;
-  const desc = `${s.label} apartment for rent at CAEEDAR, 325 University Ave W, Cobourg. ${s.sqft} sq ft, ${s.bath} bath, ${money(s.price)}/month, ${whenLabel(s).replace(/^Available/, 'available')}. Heat, cooling and water included.`;
-  const highlights = [
-    'Heat, cooling and water included (geothermal)', 'In-suite washer and dryer', 'Full kitchen with dishwasher and microwave',
-    'Central air', 'Tall windows', ...(s.barrierFree ? ['Barrier-free layout'] : []), ...s.highlights,
-  ];
+  const utilities = s.features.includes(FEATURES[0][1]);
+  const desc = `${s.label} apartment for rent at CAEEDAR, 325 University Ave W, Cobourg. ${s.sqft} sq ft, ${s.bath} bath, ${money(s.price)}/month, ${whenLabel(s).replace(/^Available/, 'available')}.${utilities ? ' Heat, cooling and water included.' : ''}`;
+  const highlights = [...s.features, ...(s.barrierFree ? ['Barrier-free layout'] : []), ...s.highlights];
   const others = suites.filter((o) => o.unit !== s.unit);
   const ld = {
     '@context': 'https://schema.org',
@@ -244,7 +252,7 @@ const suitePage = (s) => {
     <p class="sp-facts"><span>${s.sqft} sq ft</span><span>${s.bath} bath</span>${s.barrierFree ? '<span class="bf">Barrier-free</span>' : ''}</p>
     <p class="sp-when${isNow(s) ? ' now' : ''}"${isNow(s) ? '' : ` data-avail="${s.availableDate}"`}>${whenLabel(s)}</p>
     <p class="sp-price">${money(s.price)} <small>/ month</small></p>
-    <p class="sp-incl">Heat, cooling and water included.</p>
+    ${utilities ? '<p class="sp-incl">Heat, cooling and water included.</p>' : ''}
     <div class="sp-ctas">
       <a class="btn btn-wine" href="#book">Book a viewing</a>
       <a class="btn btn-line" href="${tel}">Call ${esc(phone)}</a>
@@ -258,7 +266,7 @@ const suitePage = (s) => {
     <h2>About this suite</h2>
     ${(s.description || BLURB[s.type]).split(/\n{2,}/).map((p) => `<p>${esc(p)}</p>`).join('\n    ')}
     <p>CAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away.</p>
-    <ul class="sp-list">${highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>
+    ${highlights.length ? `<ul class="sp-list">${highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
     <h3>Optional extras</h3>
     <ul class="sp-extras"><li><span>Underground parking</span><b>$100/mo</b></li><li><span>Outdoor parking</span><b>$60/mo</b></li><li><span>Storage locker</span><b>$65/mo</b></li><li><span>EV charging</span><b>On site</b></li></ul>
   </div>
