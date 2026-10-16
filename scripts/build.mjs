@@ -35,6 +35,9 @@ const BLURB = {
   '2b': 'A two bedroom with an open living and kitchen area, tall windows and in-suite laundry. Space for a family, a roommate or a dedicated office.',
   '2bd': 'A two bedroom with a separate den, an open living and kitchen area, tall windows and in-suite laundry.',
 };
+// Second paragraph of the standard description. The portal's Description field is
+// required and starts with this text; the build only falls back to it if the field is empty.
+const ABOUT_BUILDING = 'CAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away.';
 // Keys match the "features" checkboxes in admin/config.yml
 const FEATURES = [
   ['utilitiesIncluded', 'Heat, cooling and water included (geothermal)'],
@@ -63,7 +66,7 @@ const suites = (raw.suites || raw).map((s) => {
     availableNow: !!s.availableNow, availableDate: s.availableDate ? String(s.availableDate).slice(0, 10) : '',
     barrierFree: !!s.barrierFree, plan, planThumb,
     photos: (s.photos || []).map(abs).filter(Boolean),
-    description: (s.description || '').trim(),
+    description: (s.description || '').trim() || BLURB[type] + '\n\n' + ABOUT_BUILDING,
     highlights: (s.highlights || []).map((h) => String(h).trim()).filter(Boolean),
     // ticked in the portal's "Features in this suite" checkboxes; a box that has never been set counts as ticked
     features: FEATURES.filter(([key]) => (s.features || {})[key] !== false).map(([, text]) => text),
@@ -214,7 +217,7 @@ const suitePage = (s) => {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Apartment', '@id': url + '#suite', name: `${s.label}, Suite ${s.unit}, CAEEDAR`, url, description: s.description || BLURB[s.type],
+        '@type': 'Apartment', '@id': url + '#suite', name: `${s.label}, Suite ${s.unit}, CAEEDAR`, url, description: s.description,
         numberOfBedrooms: { studio: 0, '1b': 1, '1bd': 1, '2b': 2, '2bd': 2 }[s.type], numberOfBathroomsTotal: s.bath,
         floorSize: { '@type': 'QuantitativeValue', value: s.sqft, unitCode: 'FTK' },
         image: gallery.map((g) => SITE + g[0]),
@@ -264,8 +267,7 @@ const suitePage = (s) => {
 <section class="wrap sp-details">
   <div class="sp-about">
     <h2>About this suite</h2>
-    ${(s.description || BLURB[s.type]).split(/\n{2,}/).map((p) => `<p>${esc(p)}</p>`).join('\n    ')}
-    <p>CAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away.</p>
+    ${s.description.split(/\n{2,}/).map((p) => `<p>${esc(p)}</p>`).join('\n    ')}
     ${highlights.length ? `<ul class="sp-list">${highlights.map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
     <h3>Optional extras</h3>
     <ul class="sp-extras"><li><span>Underground parking</span><b>$100/mo</b></li><li><span>Outdoor parking</span><b>$60/mo</b></li><li><span>Storage locker</span><b>$65/mo</b></li><li><span>EV charging</span><b>On site</b></li></ul>

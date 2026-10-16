@@ -66,7 +66,7 @@ collections:
               - { name: plan, label: "Floor plan image", widget: image, required: false, allow_multiple: false }
               - { name: planThumb, label: "Floor plan close-up (shown on the card)", widget: image, required: false, allow_multiple: false, hint: "Optional. If empty, the floor plan above is used." }
               - { name: photos, label: "Photos of this suite", widget: list, required: false, field: { name: photo, label: Photo, widget: image } }
-              - { name: description, label: "Description on the suite page", widget: text, required: false, hint: "Optional. A few sentences about this suite (view, layout, upgrades). Leave empty to use the standard description for this suite type. Leave a blank line between paragraphs." }
+              - { name: description, label: "Description on the suite page", widget: text, required: true, default: "A bright suite with an open living and kitchen area and tall windows, a short walk from the beach and King Street.\n\nCAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away.", hint: "Shown under About this suite. A new suite starts with a standard description: edit it to fit this suite (layout, view, upgrades). Leave a blank line between paragraphs." }
               - { name: highlights, label: "Extra highlights on the suite page", widget: list, required: false, field: { name: highlight, label: Highlight, widget: string }, hint: "Optional. Anything not in the checkboxes above, such as Corner suite, South-facing balcony or Newly painted." }
 
   - name: contact
