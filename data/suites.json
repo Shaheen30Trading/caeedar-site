@@ -1,7 +1,15 @@
 {
   "suites": [
     {
-      "photos": [],
+      "photos": [
+        "/img/uploads/408.1.jpg",
+        "/img/uploads/408.2.jpg",
+        "/img/uploads/408.3.jpg",
+        "/img/uploads/408.5.jpg",
+        "/img/uploads/408.10.jpg",
+        "/img/uploads/408.7.jpg",
+        "/img/uploads/408.8.jpg"
+      ],
       "barrierFree": false,
       "unit": "408",
       "price": 1930,
@@ -35,14 +43,14 @@
       "label": "Studio",
       "availableDate": "2026-11-01",
       "type": "studio",
+      "description": "An open studio with tall windows and a full kitchen. Simple, bright and easy to keep, a short walk from the beach and King Street.\n\nCAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away.",
       "features": {
         "utilitiesIncluded": true,
         "laundry": false,
         "kitchen": true,
         "centralAir": true,
         "tallWindows": true
-      },
-      "description": "An open studio with tall windows and a full kitchen. Simple, bright and easy to keep, a short walk from the beach and King Street.\n\nCAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away."
+      }
     },
     {
       "photos": [],
@@ -57,14 +65,34 @@
       "label": "2 Bedroom",
       "availableDate": "2027-01-04",
       "type": "2b",
+      "description": "A two bedroom with an open living and kitchen area, tall windows and in-suite laundry. Space for a family, a roommate or a dedicated office.\n\nCAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away.",
       "features": {
         "utilitiesIncluded": true,
         "laundry": true,
         "kitchen": true,
         "centralAir": true,
         "tallWindows": true
-      },
-      "description": "A two bedroom with an open living and kitchen area, tall windows and in-suite laundry. Space for a family, a roommate or a dedicated office.\n\nCAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away."
+      }
+    },
+    {
+      "barrierFree": false,
+      "unit": "Unit 319 ",
+      "price": 1990,
+      "plan": "/img/uploads/unit-319-layout-325-university-ave-w-cobourg.jpg",
+      "sqft": 665,
+      "availableNow": false,
+      "bath": 1,
+      "label": "1 Bedroom + Den ",
+      "availableDate": "2026-11-01",
+      "type": "1bd",
+      "description": "A bright third floor south facing suite with an open living and kitchen area and tall windows, a short walk from the beach and King Street.\n\nCAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away.",
+      "features": {
+        "utilitiesIncluded": true,
+        "laundry": false,
+        "kitchen": true,
+        "centralAir": true,
+        "tallWindows": true
+      }
     }
   ]
 }
