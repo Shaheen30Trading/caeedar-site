@@ -15,7 +15,7 @@
       "type": "1b",
       "features": {
         "utilitiesIncluded": true,
-        "laundry": true,
+        "laundry": false,
         "kitchen": true,
         "centralAir": true,
         "tallWindows": true
@@ -36,7 +36,7 @@
       "type": "studio",
       "features": {
         "utilitiesIncluded": true,
-        "laundry": true,
+        "laundry": false,
         "kitchen": true,
         "centralAir": true,
         "tallWindows": true
