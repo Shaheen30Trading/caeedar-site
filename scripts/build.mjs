@@ -51,7 +51,8 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const abs = (p) => (p ? '/' + String(p).replace(/^\//, '') : '');
 const money = (n) => '$' + Number(n).toLocaleString('en-CA');
-const slug = (u) => String(u).trim().replace(/[^A-Za-z0-9-]/g, '');
+// "203 ", "Unit 319", "Suite #116" all become the bare unit number used in page addresses and labels
+const slug = (u) => String(u ?? '').trim().replace(/^(unit|suite|apt|apartment)\b\.?|#/gi, '').replace(/[^A-Za-z0-9-]/g, '');
 const today = new Date(); today.setHours(0, 0, 0, 0);
 const isNow = (s) => s.availableNow || !s.availableDate || new Date(s.availableDate + 'T12:00:00') <= today;
 const whenLabel = (s) => { if (isNow(s)) return 'Available now'; const d = new Date(s.availableDate + 'T12:00:00'); return 'Available ' + MONTHS[d.getMonth()] + ' ' + d.getDate(); };
@@ -321,7 +322,8 @@ write('suite-unavailable.html', unavailablePage());
 
 // home page: current suite data inline, plus plain links crawlers can follow
 let index = read('index.html');
-const inline = JSON.stringify({ suites: raw.suites || raw }, null, 1).replace(/</g, '\\u003c');
+// same cleaned unit numbers as the suite pages, so the homepage cards link to pages that exist
+const inline = JSON.stringify({ suites: (raw.suites || raw).map((s) => ({ ...s, unit: slug(s.unit) })).filter((s) => s.unit) }, null, 1).replace(/</g, '\\u003c');
 index = index.replace(/(<script id="suiteData" type="application\/json">)[\s\S]*?(<\/script>)/, `$1\n${inline}\n$2`);
 const links = suites.map((s) => `<a class="suite-link" href="suites/${s.unit}/">${esc(s.label)}, suite ${s.unit}: ${s.sqft} sq ft, ${money(s.price)}/month, ${whenLabel(s).replace(/^Available/, 'available')}</a>`).join('\n      ');
 index = index.replace(/<!--suites:start-->[\s\S]*?<!--suites:end-->/, `<!--suites:start-->\n      ${links}\n      <!--suites:end-->`);
