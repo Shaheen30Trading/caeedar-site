@@ -107,14 +107,14 @@
   function normalize(raw){
     var arr = raw && raw.suites ? raw.suites : raw;
     return (arr||[]).map(function(s){
-      var photos=(s.photos||[]).map(strip);
+      var plan=strip(s.plan) || ('img/plan-'+s.unit+'.jpg'), planThumb=strip(s.planThumb) || strip(s.plan) || ('img/plan-thumb-'+s.unit+'.jpg');
+      // the floor plan isn't counted as a photo, so it isn't shown twice
+      var photos=(s.photos||[]).map(strip).filter(function(p){ return p && p!==plan && p!==planThumb; });
       return {unit:String(s.unit), type:s.type||typeFromLabel(s.label), label:s.label||labelFromType(s.type),
         sqft:+s.sqft||0, bath:+s.bath||1, price:+s.price||0,
         available: (s.availableNow || s.available==='now') ? 'now' : (s.availableDate||s.available||'now'),
         bf: !!(s.barrierFree || s.bf),
-        plan: strip(s.plan) || ('img/plan-'+s.unit+'.jpg'),
-        planThumb: strip(s.planThumb) || strip(s.plan) || ('img/plan-thumb-'+s.unit+'.jpg'),
-        photos: photos};
+        plan: plan, planThumb: planThumb, photos: photos};
     });
   }
   function strip(p){ return p ? String(p).replace(/^\//,'') : p; }
@@ -161,14 +161,14 @@
     var rows=suites.filter(function(s){ return (fType==='all'||s.type===fType) && (!byDate || readyOn(s.available)<=byDate); })
       .sort(function(a,b){ var ak=isNow(a.available)?'0':a.available, bk=isNow(b.available)?'0':b.available; if(ak!==bk) return ak<bk?-1:1; return a.price-b.price; });
     list.innerHTML = rows.length ? rows.map(function(s){
-      var TYPEPIC={studio:'img/int-open-plan.jpg?v=20260919','1b':'img/int-living-windows.jpg?v=20260919','1bd':'img/int-living-kitchen.jpg?v=20260919','2b':'img/int-island.jpg?v=20260919','2bd':'img/int-island.jpg?v=20260919'};
-      var hasPhoto=s.photos.length>0, typePic=TYPEPIC[s.type], isType=!hasPhoto&&!!typePic;
-      var img=hasPhoto?s.photos[0]:(typePic||s.planThumb);
+      // no stand-in photos: a suite without its own photos shows its floor plan
+      var n=s.photos.length, hasPhoto=n>0;
+      var img=hasPhoto?s.photos[0]:s.planThumb;
       return '<article class="suite">'+
-        '<button class="suite-media'+(hasPhoto||isType?'':' plan')+'" data-unit="'+s.unit+'" aria-label="View floor plan and photos for suite '+s.unit+'">'+
-          '<img src="'+img+'" alt="'+(hasPhoto?'Photo of suite '+s.unit:(isType?'A '+s.label.toLowerCase()+' of the same layout at CAEEDAR':'Floor plan of suite '+s.unit))+'" loading="lazy">'+
+        '<button class="suite-media'+(hasPhoto?'':' plan')+'" data-unit="'+s.unit+'" aria-label="View floor plan and photos for suite '+s.unit+'">'+
+          '<img src="'+img+'" alt="'+(hasPhoto?'Photo of suite '+s.unit:'Floor plan of suite '+s.unit)+'" loading="lazy">'+
           '<span class="when'+(isNow(s.available)?' now':'')+'">'+whenLabel(s.available)+'</span>'+
-          '<span class="media-tag">'+(hasPhoto?(s.photos.length+' photos + floor plan'):(isType?'Similar suite \u00b7 view floor plan':'View floor plan'))+'</span>'+
+          '<span class="media-tag">'+(hasPhoto?(n+(n===1?' photo':' photos')+' + floor plan'):'View floor plan')+'</span>'+
         '</button>'+
         '<div class="suite-body">'+
           '<div class="suite-top"><h3><a href="suites/'+s.unit+'/">'+s.label+'</a></h3><span class="unitno">Suite '+s.unit+'</span></div>'+
