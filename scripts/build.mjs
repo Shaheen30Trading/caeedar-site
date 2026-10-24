@@ -321,9 +321,9 @@ ${bookForm(null)}
 /* ---------- online application upload page (apply/) ---------- */
 const DOCS = [
   ['application', 'Completed rental application', 'The filled-in application form. A PDF, or clear photos of each page.', true],
-  ['income', 'Proof of income', 'Employment letter, recent pay stubs, tax documents or other proof of income.', true],
-  ['noa', 'Notice of Assessment', 'Your most recent one, if you are self-employed.', false],
-  ['id', 'Photo ID', 'Driver&rsquo;s licence, passport or other government photo ID.', true],
+  ['income', 'Proof of income', 'Employment letter, recent pay stubs, tax documents or other proof of income. Optional for now; we&rsquo;ll need it before your application can be approved.', false],
+  ['noa', 'Notice of Assessment', 'Your most recent one, if you are self-employed. Optional for now; needed before approval if you are self-employed.', false],
+  ['id', 'Photo ID', 'Driver&rsquo;s licence, passport or other government photo ID. Optional for now; we&rsquo;ll need it before your application can be approved.', false],
   ['other', 'Anything else', 'For example a reference letter or credit report.', false],
 ];
 const applyPage = () => head({
@@ -338,7 +338,7 @@ const applyPage = () => head({
     <p class="lede">Upload your rental application and documents here. It takes a few minutes and you don&rsquo;t need an account. Everything goes straight to the CAEEDAR leasing team.</p>
     <ol class="ap-steps">
       <li><a href="/files/Caeedar-Rental-Application.pdf" download>Download the rental application (PDF)</a> and fill it in on your computer, or print it and take clear photos of each page.</li>
-      <li>Have your proof of income and photo ID ready as PDFs or photos.</li>
+      <li>Only the completed application is needed to apply. Proof of income and photo ID are optional for now, but we&rsquo;ll need them before your application can be approved, so add them now if you have them.</li>
       <li>Fill in the form and submit. You&rsquo;ll get a confirmation email.</li>
     </ol>
     <p class="ap-note">PDF, JPG, PNG or HEIC, up to 10 MB per file. Prefer email? Send everything to <a href="mailto:${esc(email)}">${esc(email)}</a>.</p>
@@ -355,7 +355,7 @@ const applyPage = () => head({
       <div class="field"><label for="a-move">Move-in date <span class="opt">(optional)</span></label><input id="a-move" name="moveIn" type="date"></div>
     </div>
     ${DOCS.map(([key, label, hint, req]) => `<div class="field ap-file">
-      <label for="a-${key}">${label} ${req ? '' : '<span class="opt">(optional)</span>'}</label>
+      <label for="a-${key}">${label} ${req ? '' : `<span class="opt">(${key === 'other' ? 'optional' : 'optional for now'})</span>`}</label>
       <span class="ap-hint">${hint}</span>
       <input id="a-${key}" type="file" data-doc="${key}"${req ? ' data-required' : ''} multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.heif,application/pdf,image/*">
     </div>`).join('\n    ')}
@@ -426,7 +426,7 @@ const links = suites.map((s) => `<a class="suite-link" href="suites/${s.unit}/">
 index = index.replace(/<!--suites:start-->[\s\S]*?<!--suites:end-->/, `<!--suites:start-->\n      ${links}\n      <!--suites:end-->`);
 // "How to rent" step 2: upload button only once the leasing account's upload script exists
 index = index.replace(/<!--apply:start-->[\s\S]*?<!--apply:end-->/, `<!--apply:start-->${APPLY_ENDPOINT
-  ? '<p>Fill in the rental application, then upload it online with:</p><ul><li>Employment letter, tax documents, or proof of other income</li><li>Most recent Notice of Assessment if self-employed</li><li>Photo ID</li></ul><div class="step-btns"><a class="btn btn-line btn-sm" href="files/Caeedar-Rental-Application.pdf" download>Download application (PDF)</a><a class="btn btn-wine btn-sm" href="apply/">Apply now</a></div>'
+  ? '<p>Fill in the rental application and upload it online. Before approval we&rsquo;ll also need:</p><ul><li>Employment letter, tax documents, or proof of other income</li><li>Most recent Notice of Assessment if self-employed</li><li>Photo ID</li></ul><div class="step-btns"><a class="btn btn-line btn-sm" href="files/Caeedar-Rental-Application.pdf" download>Download application (PDF)</a><a class="btn btn-wine btn-sm" href="apply/">Apply now</a></div>'
   : '<p>Download the rental application and send it in with:</p><ul><li>Employment letter, tax documents, or proof of other income</li><li>Most recent Notice of Assessment if self-employed</li><li>Photo ID</li></ul><a class="btn btn-line btn-sm" href="files/Caeedar-Rental-Application.pdf" download>Download application (PDF)</a>'}<!--apply:end-->`);
 write('index.html', index);
 
