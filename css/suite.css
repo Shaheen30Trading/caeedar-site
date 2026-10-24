@@ -79,3 +79,16 @@
   .sp-others{padding-top:64px;padding-bottom:72px}
   .sp-thumbs button{flex-basis:78px;height:60px}
 }
+
+/* Online application upload page (apply/), built only when data/apply.json has the upload script address */
+.ap{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start;padding-top:60px;padding-bottom:90px}
+.ap-intro h1{font-size:clamp(36px,5vw,58px);margin-bottom:16px}
+.ap-steps{margin:26px 0 0;padding-left:22px;color:var(--muted);display:flex;flex-direction:column;gap:12px}
+.ap-steps a,.ap-note a{color:var(--accent-text)}
+.ap-note{margin-top:22px;font-size:14.5px;color:var(--muted)}
+.ap-hint{font-size:13.5px;color:var(--muted);margin-top:-2px}
+.ap-file input[type=file]{padding:11px 12px;cursor:pointer}
+.ap-consent{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--muted);margin:6px 0 18px;cursor:pointer}
+.ap-consent input{width:18px;height:18px;flex:0 0 18px;margin-top:2px;padding:0;accent-color:var(--wine)}
+@media (max-width:1000px){ .ap{grid-template-columns:1fr;gap:32px} }
+@media (max-width:700px){ .ap{padding-top:40px;padding-bottom:64px} }
