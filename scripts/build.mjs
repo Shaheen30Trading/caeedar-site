@@ -19,6 +19,9 @@ const exists = (p) => fs.existsSync(path.join(ROOT, p.replace(/^\//, '').split('
 
 const contact = JSON.parse(read('data/contact.json'));
 const raw = JSON.parse(read('data/suites.json'));
+// Web-app address of the Google Apps Script in the leasing account that receives
+// application uploads. While it is empty, the /apply/ page and its buttons are not built.
+const APPLY_ENDPOINT = exists('data/apply.json') ? String(JSON.parse(read('data/apply.json')).endpoint || '').trim() : '';
 
 /* ---------- data ---------- */
 const TYPES = { studio: 'Studio', '1b': '1 Bedroom', '1bd': '1 Bedroom + Den', '2b': '2 Bedroom', '2bd': '2 Bedroom + Den' };
@@ -261,7 +264,7 @@ const suitePage = (s) => {
       <a class="btn btn-wine" href="#book">Book a viewing</a>
       <a class="btn btn-line" href="${tel}">Call ${esc(phone)}</a>
     </div>
-    <a class="sp-apply" href="/files/Caeedar-Rental-Application.pdf" download>Download the rental application (PDF)</a>
+    ${APPLY_ENDPOINT ? `<a class="sp-apply" href="/apply/?suite=${s.unit}">Apply now for this suite</a><br>` : ''}<a class="sp-apply" href="/files/Caeedar-Rental-Application.pdf" download>Download the rental application (PDF)</a>
   </div>
 </section>
 
@@ -315,10 +318,104 @@ const unavailablePage = () => head({
 ${bookForm(null)}
 ` + foot();
 
+/* ---------- online application upload page (apply/) ---------- */
+const DOCS = [
+  ['application', 'Completed rental application', 'The filled-in application form. A PDF, or clear photos of each page.', true],
+  ['income', 'Proof of income', 'Employment letter, recent pay stubs, tax documents or other proof of income.', true],
+  ['noa', 'Notice of Assessment', 'Your most recent one, if you are self-employed.', false],
+  ['id', 'Photo ID', 'Driver&rsquo;s licence, passport or other government photo ID.', true],
+  ['other', 'Anything else', 'For example a reference letter or credit report.', false],
+];
+const applyPage = () => head({
+  title: 'Apply Online | CAEEDAR, Apartments for Rent in Cobourg',
+  desc: 'Upload your rental application and documents for CAEEDAR, 325 University Ave W, Cobourg. No account needed.',
+  image: '/img/cob-beach-aerial.jpg', noindex: true,
+}).replaceAll('href="#book"', 'href="/#contact"') + `
+<section class="wrap ap">
+  <div class="ap-intro">
+    <p class="eyebrow">How to rent · Step 2</p>
+    <h1>Apply online.</h1>
+    <p class="lede">Upload your rental application and documents here. It takes a few minutes and you don&rsquo;t need an account. Everything goes straight to the CAEEDAR leasing team.</p>
+    <ol class="ap-steps">
+      <li><a href="/files/Caeedar-Rental-Application.pdf" download>Download the rental application (PDF)</a> and fill it in on your computer, or print it and take clear photos of each page.</li>
+      <li>Have your proof of income and photo ID ready as PDFs or photos.</li>
+      <li>Fill in the form and submit. You&rsquo;ll get a confirmation email.</li>
+    </ol>
+    <p class="ap-note">PDF, JPG, PNG or HEIC, up to 10 MB per file. Prefer email? Send everything to <a href="mailto:${esc(email)}">${esc(email)}</a>.</p>
+  </div>
+  <form class="card ap-form" id="apForm" novalidate>
+    <p class="hp"><label>Leave empty <input name="company" tabindex="-1" autocomplete="off"></label></p>
+    <div class="row2">
+      <div class="field"><label for="a-name">Full name</label><input id="a-name" name="name" autocomplete="name" required></div>
+      <div class="field"><label for="a-phone">Phone</label><input id="a-phone" name="phone" type="tel" autocomplete="tel" required></div>
+    </div>
+    <div class="field"><label for="a-email">Email</label><input id="a-email" name="email" type="email" autocomplete="email" required></div>
+    <div class="row2">
+      <div class="field"><label for="a-suite">Suite</label><select id="a-suite" name="suite">${suites.map((s) => `<option value="${esc(`Suite ${s.unit} · ${s.label}`)}" data-unit="${s.unit}">Suite ${s.unit} · ${esc(s.label)} · ${money(s.price)}/mo</option>`).join('')}<option value="Not sure yet">Not sure yet</option></select></div>
+      <div class="field"><label for="a-move">Move-in date <span class="opt">(optional)</span></label><input id="a-move" name="moveIn" type="date"></div>
+    </div>
+    ${DOCS.map(([key, label, hint, req]) => `<div class="field ap-file">
+      <label for="a-${key}">${label} ${req ? '' : '<span class="opt">(optional)</span>'}</label>
+      <span class="ap-hint">${hint}</span>
+      <input id="a-${key}" type="file" data-doc="${key}"${req ? ' data-required' : ''} multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.heif,application/pdf,image/*">
+    </div>`).join('\n    ')}
+    <div class="field"><label for="a-msg">Anything else we should know? <span class="opt">(optional)</span></label><textarea id="a-msg" name="message" rows="3" placeholder="Pets, parking, co-applicants, questions&hellip;"></textarea></div>
+    <label class="ap-consent"><input type="checkbox" id="a-consent" required> <span>I agree that the CAEEDAR leasing team (Balder Corporation) may use these documents only to assess my rental application. Documents from applicants who don&rsquo;t rent are deleted after 90 days.</span></label>
+    <button class="btn btn-wine" type="submit">Submit application</button>
+    <div class="thanks" id="apStatus" role="status" aria-live="polite"></div>
+  </form>
+</section>
+<script>
+(function(){
+  var END=${JSON.stringify(APPLY_ENDPOINT)}, MAX=10*1024*1024, OK=/\\.(pdf|jpe?g|png|hei[cf])$/i;
+  var f=document.getElementById('apForm'), st=document.getElementById('apStatus'), btn=f.querySelector('button[type=submit]');
+  var m=location.search.match(/[?&]suite=([^&]+)/), sel=document.getElementById('a-suite');
+  if(m){ for(var i=0;i<sel.options.length;i++){ if(sel.options[i].getAttribute('data-unit')===decodeURIComponent(m[1])) sel.selectedIndex=i; } }
+  var mv=document.getElementById('a-move'); var n=new Date(); n.setMinutes(n.getMinutes()-n.getTimezoneOffset()); mv.min=n.toISOString().slice(0,10);
+  function say(msg,err){ st.className='thanks'+(err?' err':''); st.innerHTML=msg; st.style.display='block'; }
+  function post(o){ return fetch(END,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(o)}).then(function(r){return r.json();}).then(function(j){ if(!j.ok) throw new Error(j.error||'Something went wrong.'); return j; }); }
+  function b64(file){ return new Promise(function(res,rej){ var r=new FileReader(); r.onload=function(){ res(String(r.result).split(',')[1]||''); }; r.onerror=function(){ rej(new Error('Could not read '+file.name+'.')); }; r.readAsDataURL(file); }); }
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=function(id){ return document.getElementById(id).value.trim(); };
+    var files=[], problem='';
+    [].forEach.call(f.querySelectorAll('input[type=file]'),function(inp){
+      var lbl=inp.parentNode.querySelector('label').firstChild.textContent.trim();
+      if(inp.hasAttribute('data-required') && !inp.files.length && !problem) problem='Please add your '+lbl.toLowerCase()+'.';
+      [].forEach.call(inp.files,function(file){
+        if(!OK.test(file.name) && !problem) problem=file.name+' isn\\u2019t a PDF, JPG, PNG or HEIC file.';
+        else if(file.size>MAX && !problem) problem=file.name+' is over 10 MB. Try a smaller photo or a PDF.';
+        files.push({doc:inp.getAttribute('data-doc'),file:file});
+      });
+    });
+    if(!v('a-name')||!v('a-phone')||!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(v('a-email'))) problem='Please fill in your name, phone and a valid email.';
+    else if(!problem && files.length>12) problem='Please upload 12 files or fewer.';
+    else if(!problem && !document.getElementById('a-consent').checked) problem='Please tick the consent box.';
+    if(problem){ say(problem,true); return; }
+    btn.disabled=true; btn.textContent='Uploading\\u2026'; say('Starting your application\\u2026');
+    post({action:'start',company:f.company.value,name:v('a-name'),email:v('a-email'),phone:v('a-phone'),suite:sel.value,moveIn:v('a-move'),message:v('a-msg'),consent:true})
+      .then(function(j){
+        var token=j.token, i=0;
+        function next(){ if(i>=files.length) return post({action:'finish',token:token});
+          var it=files[i++]; say('Uploading file '+i+' of '+files.length+'\\u2026');
+          return b64(it.file).then(function(data){ return post({action:'file',token:token,doc:it.doc,filename:it.file.name,data:data}); }).then(next); }
+        return next();
+      })
+      .then(function(){ f.reset(); [].forEach.call(f.querySelectorAll('.field,.ap-consent'),function(el){ el.style.display='none'; }); btn.style.display='none';
+        say('<b>Thank you! Your application is in.</b><br>We sent a confirmation to your email. The leasing team will review it and get back to you.'); st.scrollIntoView({block:'center'}); })
+      .catch(function(err){ btn.disabled=false; btn.textContent='Submit application';
+        say((err&&err.message&&!/fetch|network|JSON/i.test(err.message)?err.message+' ':'Sorry, the upload didn\\u2019t go through. ')+'Please try again, or email your documents to <a href="mailto:${esc(email)}">${esc(email)}</a>.',true); });
+  });
+})();
+</script>
+` + foot().replaceAll('href="#book"', 'href="/#contact"');
+
 /* ---------- write everything ---------- */
 fs.rmSync(path.join(ROOT, 'suites'), { recursive: true, force: true });   // removed suites disappear
 for (const s of suites) write(`suites/${s.unit}/index.html`, suitePage(s));
 write('suite-unavailable.html', unavailablePage());
+fs.rmSync(path.join(ROOT, 'apply'), { recursive: true, force: true });
+if (APPLY_ENDPOINT) write('apply/index.html', applyPage());
 
 // home page: current suite data inline, plus plain links crawlers can follow
 let index = read('index.html');
@@ -327,6 +424,10 @@ const inline = JSON.stringify({ suites: (raw.suites || raw).map((s) => ({ ...s, 
 index = index.replace(/(<script id="suiteData" type="application\/json">)[\s\S]*?(<\/script>)/, `$1\n${inline}\n$2`);
 const links = suites.map((s) => `<a class="suite-link" href="suites/${s.unit}/">${esc(s.label)}, suite ${s.unit}: ${s.sqft} sq ft, ${money(s.price)}/month, ${whenLabel(s).replace(/^Available/, 'available')}</a>`).join('\n      ');
 index = index.replace(/<!--suites:start-->[\s\S]*?<!--suites:end-->/, `<!--suites:start-->\n      ${links}\n      <!--suites:end-->`);
+// "How to rent" step 2: upload button only once the leasing account's upload script exists
+index = index.replace(/<!--apply:start-->[\s\S]*?<!--apply:end-->/, `<!--apply:start-->${APPLY_ENDPOINT
+  ? '<p>Fill in the rental application, then upload it online with:</p><ul><li>Employment letter, tax documents, or proof of other income</li><li>Most recent Notice of Assessment if self-employed</li><li>Photo ID</li></ul><div class="step-btns"><a class="btn btn-line btn-sm" href="files/Caeedar-Rental-Application.pdf" download>Download application (PDF)</a><a class="btn btn-wine btn-sm" href="apply/">Apply now</a></div>'
+  : '<p>Download the rental application and send it in with:</p><ul><li>Employment letter, tax documents, or proof of other income</li><li>Most recent Notice of Assessment if self-employed</li><li>Photo ID</li></ul><a class="btn btn-line btn-sm" href="files/Caeedar-Rental-Application.pdf" download>Download application (PDF)</a>'}<!--apply:end-->`);
 write('index.html', index);
 
 const day = new Date().toISOString().slice(0, 10);

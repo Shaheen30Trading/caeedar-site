@@ -337,6 +337,8 @@ section.block{padding:110px 0}
 .step p,.step li{color:var(--muted);font-size:15.5px}
 .step ul{margin:10px 0 0;padding-left:18px}
 .step .btn{margin-top:18px}
+.step-btns{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin-top:18px}
+.step-btns .btn{margin-top:0}
 
 /* contact */
 .contact{background:var(--blush)}
