@@ -43,7 +43,10 @@
         "kitchen": true,
         "centralAir": true,
         "tallWindows": true
-      }
+      },
+      "photos": [
+        "/img/uploads/unit-319-layout-325-university-ave-w-cobourg.jpg"
+      ]
     },
     {
       "photos": [
@@ -76,7 +79,9 @@
       }
     },
     {
-      "photos": [],
+      "photos": [
+        "/img/plan-409.jpg"
+      ],
       "barrierFree": false,
       "unit": "409",
       "price": 1710,

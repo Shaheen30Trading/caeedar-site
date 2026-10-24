@@ -25,12 +25,6 @@ const APPLY_ENDPOINT = exists('data/apply.json') ? String(JSON.parse(read('data/
 
 /* ---------- data ---------- */
 const TYPES = { studio: 'Studio', '1b': '1 Bedroom', '1bd': '1 Bedroom + Den', '2b': '2 Bedroom', '2bd': '2 Bedroom + Den' };
-const TYPE_PIC = { studio: '/img/int-open-plan.jpg', '1b': '/img/int-living-windows.jpg', '1bd': '/img/int-living-kitchen.jpg', '2b': '/img/int-island.jpg', '2bd': '/img/int-island.jpg' };
-const TYPICAL = [
-  ['/img/int-open-plan.jpg', 'Open-plan living'], ['/img/int-kitchen-detail.jpg', 'Kitchen'],
-  ['/img/int-living-windows.jpg', 'Living room'], ['/img/int-laundry.jpg', 'In-suite laundry'],
-  ['/img/int-bath.jpg', 'Bathroom'], ['/img/int-island.jpg', 'Kitchen island'],
-];
 const BLURB = {
   studio: 'An open studio with tall windows, a full kitchen and your own washer and dryer. Simple, bright and easy to keep, a short walk from the beach and King Street.',
   '1b': 'A one bedroom with an open living and kitchen area, tall windows and in-suite laundry. Room to settle in, a short walk from the beach and King Street.',
@@ -69,7 +63,8 @@ const suites = (raw.suites || raw).map((s) => {
     unit, type, label: s.label || TYPES[type], sqft: +s.sqft || 0, bath: +s.bath || 1, price: +s.price || 0,
     availableNow: !!s.availableNow, availableDate: s.availableDate ? String(s.availableDate).slice(0, 10) : '',
     barrierFree: !!s.barrierFree, plan, planThumb,
-    photos: (s.photos || []).map(abs).filter(Boolean),
+    // the floor plan isn't counted as a photo, so it isn't shown twice
+    photos: (s.photos || []).map(abs).filter((p) => p && p !== plan && p !== planThumb),
     description: (s.description || '').trim() || BLURB[type] + '\n\n' + ABOUT_BUILDING,
     highlights: (s.highlights || []).map((h) => String(h).trim()).filter(Boolean),
     // ticked in the portal's "Features in this suite" checkboxes; a box that has never been set counts as ticked
@@ -153,9 +148,10 @@ const foot = () => `</main>
 `;
 
 const card = (s) => {
-  const img = s.photos[0] || TYPE_PIC[s.type];
+  // no stand-in photos: a suite without its own photos shows its floor plan
+  const img = s.photos[0] || s.planThumb || s.plan;
   return `<a class="sp-card" href="/suites/${s.unit}/">
-      <span class="sp-card-media"><img src="${img}" alt="${esc(s.label)}, suite ${s.unit}" loading="lazy"><span class="when${isNow(s) ? ' now' : ''}"${isNow(s) ? '' : ` data-avail="${s.availableDate}"`}>${whenLabel(s)}</span></span>
+      <span class="sp-card-media${s.photos.length ? '' : ' is-plan'}"><img src="${img}" alt="${esc(s.label)}, suite ${s.unit}" loading="lazy"><span class="when${isNow(s) ? ' now' : ''}"${isNow(s) ? '' : ` data-avail="${s.availableDate}"`}>${whenLabel(s)}</span></span>
       <span class="sp-card-body"><b>${esc(s.label)}</b><span>Suite ${s.unit} · ${s.sqft} sq ft · ${s.bath} bath</span><strong>${money(s.price)} <small>/ month</small></strong></span>
     </a>`;
 };
@@ -209,8 +205,10 @@ const bookForm = (s) => `<section class="sp-book" id="book">
 /* ---------- one page per suite ---------- */
 const suitePage = (s) => {
   const url = `${SITE}/suites/${s.unit}/`;
-  const typical = s.photos.length === 0;
-  const gallery = typical ? TYPICAL : s.photos.map((p, i) => [p, `Suite ${s.unit}, photo ${i + 1}`]);
+  const planOnly = s.photos.length === 0;
+  const gallery = planOnly
+    ? [[s.planThumb || s.plan, `Floor plan of suite ${s.unit}`]]
+    : s.photos.map((p, i) => [p, `Suite ${s.unit}, photo ${i + 1}`]);
   const lower = s.label.toLowerCase();
   const title = `Suite ${s.unit}: ${s.label} for Rent in Cobourg, ${money(s.price)}/mo | CAEEDAR`;
   const utilities = s.features.includes(FEATURES[0][1]);
@@ -250,7 +248,7 @@ const suitePage = (s) => {
 
 <section class="wrap sp-hero">
   <div class="sp-gallery">
-    <figure class="sp-main"><img id="spMain" src="${gallery[0][0]}" alt="${esc(gallery[0][1])}">${typical ? '<figcaption>Photos show a similar suite at CAEEDAR</figcaption>' : ''}</figure>
+    <figure class="sp-main${planOnly ? ' is-plan' : ''}"><img id="spMain" src="${gallery[0][0]}" alt="${esc(gallery[0][1])}">${planOnly ? '<figcaption>Floor plan · photos coming soon</figcaption>' : ''}</figure>
     ${gallery.length > 1 ? `<div class="sp-thumbs" id="spThumbs">${gallery.map((g, i) => `<button type="button" data-src="${g[0]}" data-alt="${esc(g[1])}" aria-label="${esc(g[1])}"${i === 0 ? ' aria-current="true"' : ''}><img src="${g[0]}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
   </div>
   <div class="sp-info">
