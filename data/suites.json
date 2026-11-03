@@ -2,9 +2,18 @@
   "suites": [
     {
       "photos": [
-        "/img/uploads/gptempdownload-13-.jpg",
-        "/img/uploads/gptempdownload-12-.jpg",
-        "/img/uploads/gptempdownload-15-.jpg"
+        "/img/uploads/203-1.jpg",
+        "/img/uploads/203-2.jpg",
+        "/img/uploads/203-3.jpg",
+        "/img/uploads/203-4.jpg",
+        "/img/uploads/203-5.jpg",
+        "/img/uploads/206-6.jpg",
+        "/img/uploads/203-7.jpg",
+        "/img/uploads/203-8.jpg",
+        "/img/uploads/203-9.jpg",
+        "/img/uploads/203-10.jpg",
+        "/img/uploads/203-11.jpg",
+        "/img/uploads/203-12.jpg"
       ],
       "barrierFree": false,
       "unit": "203",
@@ -16,16 +25,20 @@
       "label": "2 Bedroom",
       "availableDate": "2026-11-01",
       "type": "2b",
-      "description": "A bright suite with an open living and kitchen area and tall windows, a short walk from the beach and King Street.\n\nCAEEDAR is a new geothermal rental building at 325 University Ave W in downtown Cobourg, an hour east of Toronto. Victoria Park Beach, the harbour and the shops on King Street are a short walk away.",
+      "description": "Now leasing at CAEEDAR (325 University Ave W), a modern, accessible, energy-efficient apartment building in downtown Cobourg. It’s a short walk from shops, restaurants, the beach and the waterfront.\n\nUnit 203 is a bright, west-facing, 699.7 sq ft suite on the second floor, with great afternoon light. It has two bedrooms, a full bathroom plus a powder room, and an open kitchen, living and dining area.",
       "features": {
         "utilitiesIncluded": true,
         "laundry": true,
         "kitchen": true,
         "centralAir": true,
         "tallWindows": true
-      }
+      },
+      "highlights": []
     },
     {
+      "photos": [
+        "/img/uploads/gptempdownload-10-.jpg"
+      ],
       "barrierFree": false,
       "unit": "319",
       "price": 1990,
@@ -43,10 +56,7 @@
         "kitchen": true,
         "centralAir": true,
         "tallWindows": true
-      },
-      "photos": [
-        "/img/uploads/unit-319-layout-325-university-ave-w-cobourg.jpg"
-      ]
+      }
     },
     {
       "photos": [
@@ -61,9 +71,9 @@
       "barrierFree": false,
       "unit": "408",
       "price": 1930,
-      "plan": "/img/plan-408.jpg",
+      "plan": "/img/uploads/unit-408-layout-325-university-ave-w-cobourg.jpg",
       "sqft": 563,
-      "planThumb": "/img/plan-thumb-408.jpg",
+      "planThumb": "",
       "availableNow": true,
       "bath": 1,
       "label": "1 Bedroom",
@@ -80,14 +90,14 @@
     },
     {
       "photos": [
-        "/img/plan-409.jpg"
+        "/img/uploads/gptempdownload-10-.jpg"
       ],
       "barrierFree": false,
       "unit": "409",
       "price": 1710,
-      "plan": "/img/plan-409.jpg",
+      "plan": "/img/uploads/unit-409-layout-325-university-ave-w-cobourg.jpg",
       "sqft": 495,
-      "planThumb": "/img/plan-thumb-409.jpg",
+      "planThumb": "",
       "availableNow": false,
       "bath": 1,
       "label": "Studio",
