@@ -1,41 +1,6 @@
 {
   "suites": [
     {
-      "photos": [
-        "/img/uploads/203-1.jpg",
-        "/img/uploads/203-2.jpg",
-        "/img/uploads/203-3.jpg",
-        "/img/uploads/203-4.jpg",
-        "/img/uploads/203-5.jpg",
-        "/img/uploads/206-6.jpg",
-        "/img/uploads/203-7.jpg",
-        "/img/uploads/203-8.jpg",
-        "/img/uploads/203-9.jpg",
-        "/img/uploads/203-10.jpg",
-        "/img/uploads/203-11.jpg",
-        "/img/uploads/203-12.jpg"
-      ],
-      "barrierFree": false,
-      "unit": "203",
-      "price": 2250,
-      "plan": "/img/uploads/unit-203-layout-325-university-ave-w-cobourg.jpg",
-      "sqft": 699,
-      "availableNow": false,
-      "bath": 1.5,
-      "label": "2 Bedroom",
-      "availableDate": "2026-11-01",
-      "type": "2b",
-      "description": "Now leasing at CAEEDAR (325 University Ave W), a modern, accessible, energy-efficient apartment building in downtown Cobourg. It’s a short walk from shops, restaurants, the beach and the waterfront.\n\nUnit 203 is a bright, west-facing, 699.7 sq ft suite on the second floor, with great afternoon light. It has two bedrooms, a full bathroom plus a powder room, and an open kitchen, living and dining area.",
-      "features": {
-        "utilitiesIncluded": true,
-        "laundry": true,
-        "kitchen": true,
-        "centralAir": true,
-        "tallWindows": true
-      },
-      "highlights": []
-    },
-    {
       "barrierFree": false,
       "unit": "215",
       "price": 1775,
